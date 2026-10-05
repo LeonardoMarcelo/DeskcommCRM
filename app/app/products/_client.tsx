@@ -214,6 +214,7 @@ export function ProdutosClient({
   inicial,
   total,
   pagina,
+  paginaPedida = pagina,
   porPagina,
   buscaInicial,
   urlsDasFotos,
@@ -224,7 +225,10 @@ export function ProdutosClient({
   inicial: Produto[];
   /** Quantos produtos casam com a busca no catálogo INTEIRO, não só nesta página. */
   total: number;
+  /** A página que o servidor MOSTROU — a última que existe, se a pedida passou do fim. */
   pagina: number;
+  /** A página da URL. Diferente de `pagina` quando passou do fim: a URL é corrigida aqui. */
+  paginaPedida?: number;
   porPagina: number;
   buscaInicial: string;
   urlsDasFotos: Record<string, string>;
@@ -265,6 +269,14 @@ export function ProdutosClient({
     },
     [router],
   );
+
+  // A página pedida passou do fim e o servidor mostrou a última que existe: a
+  // URL acompanha, pelo mesmo `replace` da paginação. É aqui, e não num
+  // `redirect()` no servidor, por causa da caixa do streaming (ver `page.tsx`).
+  React.useEffect(() => {
+    if (paginaPedida === pagina) return;
+    router.replace(queryDaTela(buscaInicial, pagina) || "?", { scroll: false });
+  }, [paginaPedida, pagina, buscaInicial, router]);
 
   React.useEffect(() => {
     if (busca.trim() === buscaInicial) return;

@@ -9,7 +9,6 @@ import {
   intervaloDaPagina,
   paginaDaUrl,
   PRODUTOS_POR_PAGINA,
-  queryDaTela,
   ultimaPagina,
 } from "@/lib/catalogo/busca-da-tela";
 import { BUCKET_DAS_FOTOS, fotoPertenceAoProduto } from "@/lib/catalogo/fotos";
@@ -71,24 +70,36 @@ export default async function ProdutosPage({
 
   let produtos: Produto[] = [];
   let total = 0;
+  let paginaMostrada = pagina;
   // Termo abaixo do piso (uma letra, só pontuação) NÃO vai ao banco e não lista
   // nada — o mesmo desfecho da rota e da busca de contatos. Ignorar o termo
   // mostraria o catálogo inteiro com a palavra na caixa: ruído que parece resposta.
   if (busca === "" || filtro !== null) {
-    const { data, count, error } = await consultaDoCatalogo(false)
-      .order("ativo", { ascending: false })
-      .order("nome")
-      .order("id")
-      .range(...intervaloDaPagina(pagina));
+    const lerPagina = (p: number) =>
+      consultaDoCatalogo(false)
+        .order("ativo", { ascending: false })
+        .order("nome")
+        .order("id")
+        .range(...intervaloDaPagina(p));
+
+    let { data, count, error } = await lerPagina(pagina);
 
     // Página além da última (apagaram o último produto dela, ou o link é antigo):
-    // vai para a última que existe, com a mesma busca. Os dois jeitos de o
+    // mostra a última que existe, com a mesma busca. Os dois jeitos de o
     // PostgREST dizer isso — 416 quando o início passa do total, e 206 vazio
     // quando começa EXATAMENTE nele — dão no mesmo lugar.
+    //
+    // ⚠️ Sem `redirect()` aqui. Esta página roda dentro do Suspense do
+    // `app/app/loading.tsx`: quando o streaming já começou, o redirect vira
+    // navegação no cliente e deixa a caixa `S:` do stream sem revelar (issue
+    // #1374) — a tela ficava presa ou não, conforme quem ganhasse a corrida.
+    // O servidor lê a última página e entrega; a URL é corrigida no cliente
+    // (`paginaPedida` em `ProdutosClient`), pelo mesmo `router.replace` da paginação.
     const alemDoFim = error?.code === FAIXA_ALEM_DO_FIM || (!error && pagina > 1 && (data ?? []).length === 0);
     if (alemDoFim) {
       const agora = error ? (await consultaDoCatalogo(true)).count : count;
-      redirect(`/app/products${queryDaTela(busca, ultimaPagina(agora ?? 0))}`);
+      paginaMostrada = ultimaPagina(agora ?? 0);
+      ({ data, count, error } = await lerPagina(paginaMostrada));
     }
     // Erro do banco não vira "nenhum produto cadastrado": a tela de erro do app
     // diz que algo falhou, em vez de afirmar que o catálogo está vazio.
@@ -117,7 +128,8 @@ export default async function ProdutosPage({
     <ProdutosClient
       inicial={produtos}
       total={total}
-      pagina={pagina}
+      pagina={paginaMostrada}
+      paginaPedida={pagina}
       porPagina={PRODUTOS_POR_PAGINA}
       buscaInicial={busca}
       urlsDasFotos={urlsDasFotos}
