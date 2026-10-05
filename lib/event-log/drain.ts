@@ -28,6 +28,12 @@ export interface DrainSummary {
    * `tests/unit/event-log-drain-loop.test.ts`) não precisa mudar.
    */
   pulados?: string[];
+  /**
+   * Dreno escopado: eventos em que o handler do escopo concluiu e que voltaram
+   * a `pending` só porque os outros consumidores são do worker. Não é
+   * `retried` — ninguém falhou.
+   */
+  deixados_ao_worker?: number;
   scanned: number;
   done: number;
   retried: number;
@@ -287,8 +293,11 @@ export async function drainEventLog(
     .or(`next_attempt_at.is.null,next_attempt_at.lte.${nowIso}`)
     .in("event_type", handledTypes);
   if (escopo) pendentes = pendentes.eq("organization_id", escopo.organizationId);
+  // O escopado lê do mais NOVO: a mensagem desta requisição acabou de entrar, e
+  // do mais antigo um acúmulo da organização (rajada de respostas a uma
+  // campanha) ocupava o limite inteiro e ela nunca entrava no lote.
   const { data: rows, error } = await pendentes
-    .order("created_at", { ascending: true })
+    .order("created_at", { ascending: !escopo })
     .limit(limit);
 
   if (error) {
@@ -327,6 +336,19 @@ export async function drainEventLog(
   for (const raw of rows ?? []) {
     const row = raw as unknown as EventRow;
     summary.scanned += 1;
+
+    // Linha em que o escopo já fez a sua parte e só espera o worker: reclamá-la
+    // tiraria a linha do laço do worker por um instante sem efeito nenhum.
+    if (
+      escopo &&
+      !getRegisteredHandlers().some(
+        (h) =>
+          escopo.handlers.includes(h.key) &&
+          h.events.includes(row.event_type) &&
+          !row.consumed_by.includes(h.key),
+      )
+    )
+      continue;
 
     // Claim otimista — outra instância pode ter pego a mesma linha.
     const { data: claimed } = await admin
@@ -375,7 +397,9 @@ export async function drainEventLog(
             : {}),
         })
         .eq("id", row.id);
-      summary[faltaAlguem ? "retried" : "done"] += 1;
+      if (!faltaAlguem) summary.done += 1;
+      else if (falhas.length) summary.retried += 1;
+      else summary.deixados_ao_worker = (summary.deixados_ao_worker ?? 0) + 1;
       continue;
     }
     const retry = results.find((r) => r.status === "retry");

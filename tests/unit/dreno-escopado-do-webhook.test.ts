@@ -67,7 +67,10 @@ function dublarAdmin(linhas: Array<Record<string, unknown>>) {
         registro.filtros.push(["in", c, v]);
         return self;
       },
-      order: () => self,
+      order: (c: string, o: unknown) => {
+        registro.filtros.push(["order", c, o]);
+        return self;
+      },
       limit: () => self,
       then: (resolve: (r: unknown) => void) => {
         if (registro.op === "update") return resolve({ data: [{ id: "e1" }], error: null });
@@ -143,6 +146,37 @@ describe("drainEventLog com escopo", () => {
       consumed_by: ["followup-gatilho-retorno.v1"],
     });
     expect(resumo.done).toBe(0);
+    expect(resumo.retried, "concluir a parte do escopo não é tentativa de novo").toBe(0);
+    expect(resumo.deixados_ao_worker).toBe(1);
+  });
+
+  it("lê do mais novo: a mensagem desta requisição não fica atrás do acúmulo da organização", async () => {
+    dispatch.mockResolvedValue([]);
+    const { admin, chamadas } = dublarAdmin([]);
+
+    await drainEventLog(admin as never, { escopo: ESCOPO });
+
+    const [busca] = chamadas.filter((c) => c.tabela === "event_log" && c.op === "select");
+    expect(busca!.filtros).toContainEqual(["order", "created_at", { ascending: false }]);
+  });
+
+  it("não reclama a linha em que o escopo já fez a sua parte", async () => {
+    dispatch.mockResolvedValue([{ consumer_key: "followup-gatilho-retorno.v1", status: "ok" }]);
+    const antigas = Array.from({ length: 10 }, (_, i) => ({
+      ...LINHA,
+      id: `antiga-${i}`,
+      consumed_by: ["followup-gatilho-retorno.v1"],
+    }));
+    const { admin, chamadas } = dublarAdmin([...antigas, { ...LINHA, id: "atual" }]);
+
+    const resumo = await drainEventLog(admin as never, { escopo: ESCOPO });
+
+    const reclamadas = chamadas
+      .filter((c) => c.tabela === "event_log" && c.op === "update" && c.payload?.status === "processing")
+      .map((c) => c.filtros.find(([, col]) => col === "id")?.[2]);
+    expect(reclamadas).toEqual(["atual"]);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(resumo.retried).toBe(0);
   });
 
   it("marca `done` quando o escopado era o último que faltava", async () => {
