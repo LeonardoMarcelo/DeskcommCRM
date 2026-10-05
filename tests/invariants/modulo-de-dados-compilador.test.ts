@@ -263,3 +263,51 @@ describe("módulo de dados: instala pelo caminho das extensões, que já tem rec
     expect(instalacao.artifact_id).toBeTruthy();
   });
 });
+
+describe("módulo de dados: mesclar contatos não deixa a ficha presa no contato morto", () => {
+  // Juntar duas fichas de contato NÃO apaga a perdedora: ela fica com `is_merged_into` apontando
+  // para a vencedora, e `fn_mesclar_contatos` REPONTA quem a referenciava. O laço dela varre
+  // `pg_constraint` buscando FK para `contacts` — mas só as de UMA coluna (`array_length(conkey,1)=1`,
+  // usando `conkey[1]`). A FK de um módulo é COMPOSTA por organização, então ficava de fora: a ficha
+  // do módulo continuava apontando para o contato morto, e quem procurasse pela pessoa viva não a
+  // encontrava. Não é perda de linha, é pior — é dado que existe e não aparece.
+  it("a ficha do módulo passa a apontar para o contato que ficou", async () => {
+    await compilar(await artefato());
+
+    const principal = (await query(
+      "insert into public.contacts(organization_id, name) values ($1, 'Quem fica') returning id",
+      [orgA],
+    )).rows[0].id;
+    const secundario = (await query(
+      "insert into public.contacts(organization_id, name) values ($1, 'Quem sai') returning id",
+      [orgA],
+    )).rows[0].id;
+
+    const ficha = (await query(
+      `insert into public.${tabela}(organization_id, paciente_id, dente, condicao)
+       values ($1, $2, 21, 'restaurado') returning id`,
+      [orgA, secundario],
+    )).rows[0].id;
+
+    // O CONTROLE, na MESMA fusão: uma tabela do núcleo que referencia contato por FK de UMA coluna
+    // tem de continuar repontada. A primeira tentativa deste conserto usava subquery escalar dentro
+    // do `ON` e zerava o laço INTEIRO — nada era repontado, nem o que já funcionava, e em silêncio.
+    // Sem este controle, aquele defeito passaria como verde.
+    const marca = (await query(
+      `insert into public.meta_ads_click_refs(organization_id, contact_id, token, utm)
+       values ($1, $2, $3, '{"utm_source":"teste"}'::jsonb) returning id`,
+      [orgA, secundario, `tok-${secundario}`],
+    )).rows[0].id;
+
+    await query("select public.fn_mesclar_contatos($1, $2, $3::uuid[])", [orgA, principal, [secundario]]);
+
+    const nucleo = (await query("select contact_id from public.meta_ads_click_refs where id = $1", [
+      marca,
+    ])).rows[0];
+    expect(nucleo.contact_id).toBe(principal);
+
+    const depois = (await query(`select paciente_id from public.${tabela} where id = $1`, [ficha]))
+      .rows[0];
+    expect(depois.paciente_id).toBe(principal);
+  });
+});
