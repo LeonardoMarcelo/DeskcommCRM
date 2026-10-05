@@ -62,10 +62,22 @@ export async function GET(): Promise<Response> {
   );
   if (error) return fail("internal_error", error.message, 500, { requestId });
 
-  return ok(data ?? [], {
+  return ok((data ?? []).map(semConfiguracaoInterna), {
     requestId,
     ...(schemaOutdated ? { meta: { schema_outdated: true } } : {}),
   });
+}
+
+/**
+ * Esta lista é de QUALQUER membro (seletor do inbox, barra lateral), e o
+ * `metadata` do canal guarda configuração que não é de todo mundo — a lista de
+ * números de teste da IA (`ai_test_phone_numbers`), que a própria rota
+ * `ai-access` só mostra a quem pode editá-la, e o que mais entrar ali depois.
+ * Daqui sai só o que a tela usa: `disabled` (o selo "Pausado", #2318).
+ */
+function semConfiguracaoInterna<T extends { metadata?: unknown }>(canal: T): T {
+  const m = canal.metadata as Record<string, unknown> | null | undefined;
+  return { ...canal, metadata: { disabled: m?.disabled === true } };
 }
 
 export async function POST(req: NextRequest): Promise<Response> {

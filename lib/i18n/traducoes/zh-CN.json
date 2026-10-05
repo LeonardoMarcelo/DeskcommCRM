@@ -5529,5 +5529,6 @@
   "dias, o Jev e o jeito de hoje deram o mesmo destino a": "天内，Jev 与当前做法给出相同结果的有",
   "campos do negócio.": "个商机字段。",
   "O Jev foi perguntado se o cliente disse, nas mensagens ainda sem resposta deste turno, o valor do campo personalizado do negócio que a IA ia gravar.": "Jev 被询问：客户是否在本轮尚未回复的消息中说出了 AI 准备保存的商机自定义字段的值。",
-  "O Jev não respondeu: o campo foi gravado como antes, sem a conferência.": "Jev 没有回应：字段按以前的方式保存，未经核对。"
+  "O Jev não respondeu: o campo foi gravado como antes, sem a conferência.": "Jev 没有回应：字段按以前的方式保存，未经核对。",
+  "A citação do RGPD (artigo 15.º do Regulamento (UE) 2016/679) foi conferida contra o texto oficial numa revisão feita por IA, sem advogado em Portugal. Os prazos do sistema (7 e 15 dias úteis) são mais curtos que o prazo legal de um mês, e o relatório de acesso ainda não traz todas as informações do art. 15.º. Trocar o país muda a regra do documento do contato: a partir daí, CPF enviado por API, importação ou integração é recusado como NIF inválido. O sistema não substitui o seu encarregado da proteção de dados: confirme com ele os textos enviados aos titulares, sobretudo nas campanhas de marketing, que em Portugal, em regra, exigem consentimento prévio (Lei 41/2004, art. 13.º-A).": "RGPD（欧盟第 2016/679 号条例第 15 条）的引用已由 AI 进行的审查对照官方文本核对，未经葡萄牙律师审阅。系统的期限（7 个和 15 个工作日）短于一个月的法定期限，且访问报告尚未包含第 15 条要求的全部信息。更改国家会改变联系人证件的规则：此后，通过 API、导入或集成发送的 CPF 会被视为无效的 NIF 而被拒绝。本系统不能替代您的数据保护官：请与其确认发送给数据主体的文本，尤其是营销活动——在葡萄牙，营销活动通常需要事先同意（第 41/2004 号法律第 13-A 条）。"
 }
