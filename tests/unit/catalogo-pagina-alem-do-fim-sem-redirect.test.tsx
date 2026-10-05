@@ -6,12 +6,14 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 /**
  * PÁGINA ALÉM DO FIM: O SERVIDOR MOSTRA A ÚLTIMA, O CLIENTE CORRIGE A URL.
  *
- * A página `/app/products` roda dentro do Suspense do `app/app/loading.tsx`.
- * Um `redirect()` no servidor depois que o streaming começou vira navegação no
- * cliente e deixa a caixa `S:` sem revelar (issue #1374): o e2e
- * `catalogo-busca-no-catalogo-inteiro` passava ou falhava conforme a corrida, e
- * na `main` em c85293f05 falhou. O servidor passa a ler a última página e
- * entregar; a URL acompanha pelo `router.replace`, o mesmo da paginação.
+ * No e2e `catalogo-busca-no-catalogo-inteiro` (main c85293f05 e PRs que a
+ * incluem), a página 99 de uma busca com 529 produtos pedia ao PostgREST uma
+ * faixa além do total — e a consulta, em vez do 416 imediato, estourava o
+ * `statement_timeout` de 8 s ("canceling statement due to statement timeout",
+ * log do servidor no CI). A página lançava erro e o stream ficava sem revelar.
+ * Agora a página > 1 conta antes e só lê uma página que existe; o servidor
+ * entrega a última, e a URL acompanha pelo `router.replace` da paginação (sem
+ * `redirect()` no meio do streaming do `loading.tsx`, issue #1374).
  */
 
 const replace = vi.fn();
@@ -62,7 +64,19 @@ describe("a URL acompanha a página que o servidor mostrou", () => {
     expect(replace).not.toHaveBeenCalled();
   });
 
-  it("o servidor não redireciona por página além do fim (é o que deixava a caixa do stream órfã)", () => {
+  it("página > 1: conta ANTES de ler, e só lê uma página que existe", () => {
+    const fonte = readFileSync(join(process.cwd(), "app/app/products/page.tsx"), "utf8");
+    const contagem = fonte.indexOf("if (pagina > 1) {");
+    const leitura = fonte.indexOf("await lerPagina(paginaMostrada)");
+    expect(contagem).toBeGreaterThan(-1);
+    expect(leitura).toBeGreaterThan(contagem);
+    const bloco = fonte.slice(contagem, leitura);
+    expect(bloco).toContain("consultaDoCatalogo(true)");
+    expect(bloco).toContain("Math.min(pagina, ultimaPagina(");
+    expect(fonte).not.toContain("await lerPagina(pagina)");
+  });
+
+  it("o servidor não redireciona por página além do fim (a URL é corrigida no cliente)", () => {
     const fonte = readFileSync(join(process.cwd(), "app/app/products/page.tsx"), "utf8");
     const bloco = fonte.slice(fonte.indexOf("const alemDoFim"), fonte.indexOf("if (error) throw"));
     expect(bloco).toContain("paginaMostrada = ultimaPagina(");

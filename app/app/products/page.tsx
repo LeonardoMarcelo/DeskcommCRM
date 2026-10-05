@@ -82,20 +82,34 @@ export default async function ProdutosPage({
         .order("id")
         .range(...intervaloDaPagina(p));
 
-    let { data, count, error } = await lerPagina(pagina);
-
-    // Página além da última (apagaram o último produto dela, ou o link é antigo):
-    // mostra a última que existe, com a mesma busca. Os dois jeitos de o
-    // PostgREST dizer isso — 416 quando o início passa do total, e 206 vazio
-    // quando começa EXATAMENTE nele — dão no mesmo lugar.
+    // Página > 1: conta ANTES e nunca pede uma faixa além do fim. Pedir o
+    // `range` de uma página que não existe (link antigo, ou apagaram o último
+    // produto dela) não devolve o 416 na hora: no e2e
+    // `catalogo-busca-no-catalogo-inteiro` a consulta com deslocamento além do
+    // total estourou o `statement_timeout` (8 s, "canceling statement due to
+    // statement timeout") com 529 produtos — enquanto as páginas que existem
+    // respondiam em ~60 ms —, a página lançava erro e a tela ficava presa no
+    // carregamento. A contagem `head` é barata e devolve a última página real.
     //
-    // ⚠️ Sem `redirect()` aqui. Esta página roda dentro do Suspense do
-    // `app/app/loading.tsx`: quando o streaming já começou, o redirect vira
-    // navegação no cliente e deixa a caixa `S:` do stream sem revelar (issue
-    // #1374) — a tela ficava presa ou não, conforme quem ganhasse a corrida.
-    // O servidor lê a última página e entrega; a URL é corrigida no cliente
-    // (`paginaPedida` em `ProdutosClient`), pelo mesmo `router.replace` da paginação.
-    const alemDoFim = error?.code === FAIXA_ALEM_DO_FIM || (!error && pagina > 1 && (data ?? []).length === 0);
+    // Sem `redirect()` aqui. Esta página roda dentro do Suspense do
+    // `app/app/loading.tsx`, e um redirect com o streaming já começado vira
+    // navegação no cliente (issue #1374). O servidor entrega a última página
+    // que existe; a URL é corrigida no cliente (`paginaPedida` em
+    // `ProdutosClient`), pelo mesmo `router.replace` da paginação.
+    if (pagina > 1) {
+      const { count: totalAntes, error: erroDaContagem } = await consultaDoCatalogo(true);
+      if (erroDaContagem) throw new Error(`Não consegui ler o catálogo: ${erroDaContagem.message}`);
+      paginaMostrada = Math.min(pagina, ultimaPagina(totalAntes ?? 0));
+    }
+
+    let { data, count, error } = await lerPagina(paginaMostrada);
+
+    // A corrida que a contagem não fecha: alguém apagou produtos entre ela e a
+    // leitura, e a página encolheu por baixo de nós. O PostgREST diz isso de
+    // dois jeitos — 416 quando o início passa do total, 206 vazio quando
+    // começa EXATAMENTE nele —, e os dois dão na última página que sobrou.
+    const alemDoFim =
+      error?.code === FAIXA_ALEM_DO_FIM || (!error && paginaMostrada > 1 && (data ?? []).length === 0);
     if (alemDoFim) {
       const agora = error ? (await consultaDoCatalogo(true)).count : count;
       paginaMostrada = ultimaPagina(agora ?? 0);
