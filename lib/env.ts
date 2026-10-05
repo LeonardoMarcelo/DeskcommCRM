@@ -270,6 +270,14 @@ const schema = z.object({
   // duplicado ou perdido (bug real da fusão).
   AGENT_DISPATCH_CONSUMER: z.enum(["engine", "native"]).optional().default("engine"),
 
+  // Há um worker drenando o `event_log` em laço ao lado deste app? Quem declara
+  // é o compose que sobe os dois (`docker-compose.prod.yml`), não o `.env`:
+  // vazio é "não", e o webhook de mensagem segue drenando a fila inteira dentro
+  // da própria requisição. `1`/`true` troca isso por um dreno só da organização
+  // e dos gatilhos de follow-up — `lib/dev/kick-local-pipeline.ts`.
+  // `z.string()` e não `z.enum`: valor torto aqui não pode derrubar o app.
+  EVENT_LOG_WORKER_DRAINS: z.string().optional().default(""),
+
   /**
    * Kill switch do teto de gasto de IA — a alavanca que o operador da VPS puxa
    * às 2h da manhã quando a IA parou e ele não sabe SQL.

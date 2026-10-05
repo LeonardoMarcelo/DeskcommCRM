@@ -135,9 +135,23 @@ export async function avisarEventoMorto(
   }
 }
 
+/**
+ * Dreno de UMA organização, rodando só alguns handlers — o do webhook de
+ * mensagem quando há worker drenando (`lib/dev/kick-local-pipeline.ts`).
+ *
+ * Ele não é dono do evento: os outros handlers do mesmo evento ficam para o
+ * laço do worker. Por isso o evento volta a `pending` com o `consumed_by`
+ * acrescido, e falha de um handler escopado NÃO conta tentativa nem aplica
+ * backoff — o worker roda o que faltou já no próximo tique, e é ele quem conta.
+ */
+export interface EscopoDoDreno {
+  organizationId: string;
+  handlers: readonly string[];
+}
+
 export async function drainEventLog(
   admin: SupabaseClient,
-  opts: { limit?: number } = {},
+  opts: { limit?: number; escopo?: EscopoDoDreno } = {},
 ): Promise<DrainSummary> {
   const limit = opts.limit ?? 50;
   const summary: DrainSummary = {
@@ -149,7 +163,14 @@ export async function drainEventLog(
     pulados: [],
   };
 
-  const handledTypes = [...new Set(getRegisteredHandlers().flatMap((h) => h.events))];
+  const escopo = opts.escopo;
+  const handledTypes = [
+    ...new Set(
+      getRegisteredHandlers()
+        .filter((h) => !escopo || escopo.handlers.includes(h.key))
+        .flatMap((h) => h.events),
+    ),
+  ];
   if (!handledTypes.length) return summary;
 
   const nowIso = new Date().toISOString();
@@ -175,12 +196,17 @@ export async function drainEventLog(
   // `updated_at` é confiável como "quando alguém tocou esta linha": o trigger
   // `trg_event_log_touch` (BEFORE UPDATE) o reescreve em toda atualização, então
   // a linha carrega o instante do CLAIM enquanto o handler não volta.
+  //
+  // O dreno escopado não reclama: a varredura é de TODAS as organizações, e é
+  // do laço do worker e do cron.
   const limiteDePresos = new Date(Date.now() - PROCESSING_STALE_MS).toISOString();
-  const { data: presos } = await admin
-    .from("event_log")
-    .select("id, organization_id, event_type, attempts")
-    .eq("status", "processing")
-    .lt("updated_at", limiteDePresos);
+  const { data: presos } = escopo
+    ? { data: [] }
+    : await admin
+        .from("event_log")
+        .select("id, organization_id, event_type, attempts")
+        .eq("status", "processing")
+        .lt("updated_at", limiteDePresos);
 
   // ─── E A VOLTA CONTA COMO TENTATIVA ────────────────────────────────────────
   //
@@ -248,7 +274,7 @@ export async function drainEventLog(
     });
   }
 
-  const { data: rows, error } = await admin
+  let pendentes = admin
     .from("event_log")
     // `created_at` viaja porque um consumidor não consegue distinguir "evento de
     // agora" de "evento de três dias parado em `pending`" sem ele — e o drain
@@ -259,7 +285,9 @@ export async function drainEventLog(
     )
     .eq("status", "pending")
     .or(`next_attempt_at.is.null,next_attempt_at.lte.${nowIso}`)
-    .in("event_type", handledTypes)
+    .in("event_type", handledTypes);
+  if (escopo) pendentes = pendentes.eq("organization_id", escopo.organizationId);
+  const { data: rows, error } = await pendentes
     .order("created_at", { ascending: true })
     .limit(limit);
 
@@ -309,12 +337,47 @@ export async function drainEventLog(
       .select("id");
     if (!claimed?.length) continue;
 
-    const results = await dispatchEvent(row, { orgParada: parados.has(row.organization_id) });
+    const results = await dispatchEvent(row, {
+      orgParada: parados.has(row.organization_id),
+      soHandlers: escopo?.handlers,
+    });
 
     const okKeys = results
       .filter((r) => r.status === "ok" || r.status === "skipped")
       .map((r) => r.consumer_key);
     const consumedBy = [...new Set([...row.consumed_by, ...okKeys])];
+
+    if (escopo) {
+      const falhas = results.filter((r) => r.status === "retry" || r.status === "error");
+      if (falhas.length) {
+        logger.warn("[event-log.drain] handler do dreno escopado não concluiu — fica para o worker", {
+          event_id: row.id,
+          falhas: falhas.map((r) => `${r.consumer_key}: ${r.detail ?? r.status}`).join("; "),
+        });
+      }
+      const faltaAlguem = getRegisteredHandlers().some(
+        (h) => h.events.includes(row.event_type) && !consumedBy.includes(h.key),
+      );
+      // O motivo do `skipped` sobrevive aqui também (ver o ramo `done` abaixo).
+      const pulados = results.filter((r) => r.status === "skipped" && r.detail);
+      if (pulados.length)
+        summary.pulados?.push(
+          ...pulados.map((r) => `${row.event_type}/${r.consumer_key}: ${r.detail}`),
+        );
+      await admin
+        .from("event_log")
+        .update({
+          status: faltaAlguem ? "pending" : "done",
+          consumed_by: consumedBy,
+          updated_at: new Date().toISOString(),
+          ...(pulados.length
+            ? { last_error: pulados.map((r) => `${r.consumer_key}: ${r.detail}`).join("; ") }
+            : {}),
+        })
+        .eq("id", row.id);
+      summary[faltaAlguem ? "retried" : "done"] += 1;
+      continue;
+    }
     const retry = results.find((r) => r.status === "retry");
     const errors = results.filter((r) => r.status === "error");
 

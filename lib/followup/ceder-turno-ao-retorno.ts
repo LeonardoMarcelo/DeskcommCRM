@@ -112,9 +112,11 @@ export async function deveCederTurnoAoRetorno(
     if (estado.is_group || estado.is_blocked || humanoNoComando(estado, agora)) return false;
 
     // O produtor costuma rodar ANTES deste drain: `aplicarEfeitosPosEntrada`
-    // drena o event_log na própria requisição e só depois pede o despacho do
-    // agente. Aí a inscrição que ESTA mensagem criou já está viva, e a checagem
-    // de "vivos" abaixo a confundiria com outro fluxo ocupando o slot. O
+    // drena o gatilho de retorno na própria requisição, logo depois de pedir o
+    // despacho, e o turno ainda espera o debounce. Costuma, não sempre — por
+    // isso a previsão abaixo. Quando rodou, a inscrição que ESTA mensagem
+    // criou já está viva, e a checagem de "vivos" abaixo a confundiria com
+    // outro fluxo ocupando o slot. O
     // produtor grava o `message_id` no evento de inscrição: se ele existe, o
     // fluxo já é a voz deste retorno.
     const { rows: inscritoPorEsta } = await pool.query(
