@@ -25,6 +25,8 @@
  * anos que estavam listados, para o cálculo não trocar a régua em silêncio.
  */
 
+import { diaEmTornoDaPascoa } from "./pascoa";
+
 /** Primeiro ano coberto pelo calendário gerado. */
 export const PRIMEIRO_ANO_COBERTO = 2000;
 
@@ -49,39 +51,9 @@ const FIXED_DATES = [
 ];
 
 /**
- * Domingo de Páscoa no calendário gregoriano — Meeus/Jones/Butcher.
- * Devolve mês (1–12) e dia do mês.
- */
-function pascoaDoAno(ano: number): { mes: number; dia: number } {
-  const a = ano % 19;
-  const b = Math.floor(ano / 100);
-  const c = ano % 100;
-  const d = Math.floor(b / 4);
-  const e = b % 4;
-  const f = Math.floor((b + 8) / 25);
-  const g = Math.floor((b - f + 1) / 3);
-  const h = (19 * a + b - d - g + 15) % 30;
-  const i = Math.floor(c / 4);
-  const k = c % 4;
-  const l = (32 + 2 * e + 2 * i - h - k) % 7;
-  const m = Math.floor((a + 11 * h + 22 * l) / 451);
-  const mes = Math.floor((h + l - 7 * m + 114) / 31);
-  const dia = ((h + l - 7 * m + 114) % 31) + 1;
-  return { mes, dia };
-}
-
-/** `YYYY-MM-DD` de `dias` depois da Páscoa (negativo = antes). */
-function diaEmTornoDaPascoa(ano: number, dias: number): string {
-  const { mes, dia } = pascoaDoAno(ano);
-  const alvo = new Date(Date.UTC(ano, mes - 1, dia) + dias * 86_400_000);
-  const mm = String(alvo.getUTCMonth() + 1).padStart(2, "0");
-  const dd = String(alvo.getUTCDate()).padStart(2, "0");
-  return `${alvo.getUTCFullYear()}-${mm}-${dd}`;
-}
-
-/**
  * Os doze feriados obrigatórios de um ano: os dez fixos, a Sexta-feira Santa
- * (Páscoa − 2) e o Corpo de Deus (Páscoa + 60).
+ * (Páscoa − 2) e o Corpo de Deus (Páscoa + 60). A Páscoa vem do módulo comum
+ * (`./pascoa`), o mesmo que o Brasil usa.
  *
  * ⚠️ A lista pode repetir uma data: quando o Corpo de Deus cai em 10 de junho
  * (Dia de Portugal), os dois feriados são o MESMO dia — 2004, 2066, 2077 e
