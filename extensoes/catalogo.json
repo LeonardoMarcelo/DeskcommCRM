@@ -4,6 +4,79 @@
   "entries": [
     {
       "publisher": "deskcomm",
+      "name": "agenda-que-nao-fura",
+      "version": "1.0.0",
+      "license": "MIT",
+      "host_api": {
+        "min": 2,
+        "max": 2
+      },
+      "display": {
+        "title": {
+          "pt-BR": "Agenda que não fura",
+          "es": "Agenda que no se cae"
+        },
+        "summary": {
+          "pt-BR": "Falta não é azar, é processo. Como confirmar sem parecer cobrança, o que fazer com o horário vago e por que a lista de espera vale mais que a multa.",
+          "es": "La ausencia no es mala suerte, es proceso. Cómo confirmar sin parecer cobro, qué hacer con el horario libre y por qué la lista de espera vale más que la multa."
+        },
+        "category": "productivity",
+        "icon": "ListChecks"
+      },
+      "permissions": [
+        "navigation.agenda",
+        "navigation.inbox"
+      ],
+      "sha256": "8061b3545ca69774c5d98e8e139a1e7c175b2e737b8a2919632193769713a43a",
+      "byte_length": 6314,
+      "publisher_label": "Deskcomm",
+      "repository": "https://github.com/melgarafael/DeskcommCRM",
+      "tags": [
+        "agenda",
+        "confirmacao",
+        "falta",
+        "clinica"
+      ],
+      "published_at": "2026-10-06"
+    },
+    {
+      "publisher": "deskcomm",
+      "name": "base-parada-reativada",
+      "version": "1.0.0",
+      "license": "MIT",
+      "host_api": {
+        "min": 2,
+        "max": 2
+      },
+      "display": {
+        "title": {
+          "pt-BR": "Reativar a base parada",
+          "es": "Reactivar la base detenida"
+        },
+        "summary": {
+          "pt-BR": "Quem já comprou uma vez é a venda mais barata que existe — e a mais abandonada. Como escolher quem chamar, em que ordem e com que mensagem, sem queimar a base nem o número.",
+          "es": "Quien ya compró una vez es la venta más barata que existe, y la más abandonada. Cómo elegir a quién contactar, en qué orden y con qué mensaje."
+        },
+        "category": "sales",
+        "icon": "Lightbulb"
+      },
+      "permissions": [
+        "navigation.contacts",
+        "navigation.kanban"
+      ],
+      "sha256": "4a0a351644722afcfe98b78ba653a89675e222d1ad575cc5618ac661f07952dc",
+      "byte_length": 6943,
+      "publisher_label": "Deskcomm",
+      "repository": "https://github.com/melgarafael/DeskcommCRM",
+      "tags": [
+        "reativacao",
+        "base",
+        "vendas"
+      ],
+      "published_at": "2026-10-06"
+    },
+    {
+      "publisher": "deskcomm",
       "name": "carrinho-abandonado",
       "version": "1.0.0",
       "license": "MIT",
@@ -37,6 +110,228 @@
         "recuperacao"
       ],
       "published_at": "2026-09-18"
+    },
+    {
+      "publisher": "deskcomm",
+      "name": "funil-que-diz-a-verdade",
+      "version": "1.0.0",
+      "license": "MIT",
+      "host_api": {
+        "min": 2,
+        "max": 2
+      },
+      "display": {
+        "title": {
+          "pt-BR": "Um funil que diz a verdade",
+          "es": "Un embudo que dice la verdad"
+        },
+        "summary": {
+          "pt-BR": "Funil com etapa que ninguém usa e negócio parado há meses não informa nada. Como nomear etapas, quando mover, o que registrar na perda e por que o número de etapas importa menos do que parece.",
+          "es": "Un embudo con etapas que nadie usa y negocios detenidos hace meses no informa nada. Cómo nombrar etapas, cuándo mover y qué registrar en la pérdida."
+        },
+        "category": "productivity",
+        "icon": "ListChecks"
+      },
+      "permissions": [
+        "navigation.kanban",
+        "navigation.radar"
+      ],
+      "sha256": "b7456c09af633d638c9bd6e5ed8a6c5782a3f9b8239a22c6733af5df47d90631",
+      "byte_length": 7802,
+      "publisher_label": "Deskcomm",
+      "repository": "https://github.com/melgarafael/DeskcommCRM",
+      "tags": [
+        "funil",
+        "etapas",
+        "perda",
+        "gestao"
+      ],
+      "published_at": "2026-10-06"
+    },
+    {
+      "publisher": "deskcomm",
+      "name": "imovel-da-visita-a-proposta",
+      "version": "1.0.0",
+      "license": "MIT",
+      "host_api": {
+        "min": 2,
+        "max": 2
+      },
+      "display": {
+        "title": {
+          "pt-BR": "Imobiliária: da visita à proposta",
+          "es": "Inmobiliaria: de la visita a la propuesta"
+        },
+        "summary": {
+          "pt-BR": "Qualificar antes de rodar a cidade, acompanhar depois da visita e descobrir cedo quem decide junto. O que separa corretor ocupado de corretor que fecha.",
+          "es": "Calificar antes de recorrer la ciudad, dar seguimiento después de la visita y descubrir pronto quién decide en conjunto."
+        },
+        "category": "sales",
+        "icon": "BookOpen"
+      },
+      "permissions": [
+        "navigation.kanban",
+        "navigation.agenda",
+        "navigation.inbox"
+      ],
+      "sha256": "8e89ede951ecbbc2c53183b7ae8abdc15896f730566ba8da66bc498b0167c992",
+      "byte_length": 8157,
+      "publisher_label": "Deskcomm",
+      "repository": "https://github.com/melgarafael/DeskcommCRM",
+      "tags": [
+        "imobiliaria",
+        "visita",
+        "vendas"
+      ],
+      "published_at": "2026-10-06"
+    },
+    {
+      "publisher": "deskcomm",
+      "name": "numero-que-nao-cai",
+      "version": "1.0.0",
+      "license": "MIT",
+      "host_api": {
+        "min": 2,
+        "max": 2
+      },
+      "display": {
+        "title": {
+          "pt-BR": "O número que não cai",
+          "es": "El número que no se cae"
+        },
+        "summary": {
+          "pt-BR": "Higiene de WhatsApp para quem depende dele: aquecimento, ritmo de disparo, variação de texto e os sinais de que a conta está sendo punida antes do bloqueio.",
+          "es": "Higiene de WhatsApp para quien depende de él: calentamiento, ritmo de envío, variación de texto y las señales de que la cuenta está siendo penalizada antes del bloqueo."
+        },
+        "category": "productivity",
+        "icon": "ListChecks"
+      },
+      "permissions": [
+        "navigation.inbox",
+        "navigation.contacts"
+      ],
+      "sha256": "9ec97661a540a4d3f82c9eb499202f1a079742078efdb92d9664801b71fb1f6e",
+      "byte_length": 8734,
+      "publisher_label": "Deskcomm",
+      "repository": "https://github.com/melgarafael/DeskcommCRM",
+      "tags": [
+        "whatsapp",
+        "higiene",
+        "aquecimento",
+        "campanha"
+      ],
+      "published_at": "2026-10-06"
+    },
+    {
+      "publisher": "deskcomm",
+      "name": "orcamento-que-volta",
+      "version": "1.0.0",
+      "license": "MIT",
+      "host_api": {
+        "min": 2,
+        "max": 2
+      },
+      "display": {
+        "title": {
+          "pt-BR": "Orçamento que volta",
+          "es": "Presupuesto que vuelve"
+        },
+        "summary": {
+          "pt-BR": "Orçamento enviado e silêncio é o maior desperdício de todo funil. O roteiro de como enviar para ter resposta, quando cobrar e quando encerrar sem perder a relação.",
+          "es": "Presupuesto enviado y silencio es el mayor desperdicio de todo embudo. El guion de cómo enviarlo para tener respuesta, cuándo insistir y cuándo cerrar sin perder la relación."
+        },
+        "category": "sales",
+        "icon": "ListChecks"
+      },
+      "permissions": [
+        "navigation.kanban",
+        "navigation.inbox",
+        "navigation.tasks"
+      ],
+      "sha256": "bda9f28916fa2f3eced89e30550c70eb740fddc0a4115e65ee7b1c3d2b3f04b6",
+      "byte_length": 7944,
+      "publisher_label": "Deskcomm",
+      "repository": "https://github.com/melgarafael/DeskcommCRM",
+      "tags": [
+        "vendas",
+        "orcamento",
+        "acompanhamento"
+      ],
+      "published_at": "2026-10-06"
+    },
+    {
+      "publisher": "deskcomm",
+      "name": "otica-receita-e-adaptacao",
+      "version": "1.0.0",
+      "license": "MIT",
+      "host_api": {
+        "min": 2,
+        "max": 2
+      },
+      "display": {
+        "title": {
+          "pt-BR": "Ótica: da receita ao retorno",
+          "es": "Óptica: de la receta al retorno"
+        },
+        "summary": {
+          "pt-BR": "O que perguntar quando chega a foto de uma receita, como acompanhar a adaptação de lente de contato e por que o retorno de um ano é a venda mais barata da loja.",
+          "es": "Qué preguntar cuando llega la foto de una receta, cómo acompañar la adaptación de lentes de contacto y por qué el retorno anual es la venta más barata de la tienda."
+        },
+        "category": "service",
+        "icon": "BookOpen"
+      },
+      "permissions": [
+        "navigation.inbox",
+        "navigation.agenda",
+        "navigation.contacts"
+      ],
+      "sha256": "42e17eaff2a439066b02683c1f1af479ae53ac1dc29769c68af8bedea2b4a204",
+      "byte_length": 10074,
+      "publisher_label": "Deskcomm",
+      "repository": "https://github.com/melgarafael/DeskcommCRM",
+      "tags": [
+        "otica",
+        "receita",
+        "lente-de-contato",
+        "retorno"
+      ],
+      "published_at": "2026-10-06"
+    },
+    {
+      "publisher": "deskcomm",
+      "name": "pos-venda-e-indicacao",
+      "version": "1.0.0",
+      "license": "MIT",
+      "host_api": {
+        "min": 2,
+        "max": 2
+      },
+      "display": {
+        "title": {
+          "pt-BR": "Pós-venda e indicação",
+          "es": "Posventa y recomendación"
+        },
+        "summary": {
+          "pt-BR": "O cliente satisfeito é o canal de aquisição mais barato que existe, e o único que quase ninguém pede. Quando perguntar, o que perguntar e como transformar elogio em indicação.",
+          "es": "El cliente satisfecho es el canal de adquisición más barato que existe, y el único que casi nadie pide. Cuándo preguntar, qué preguntar y cómo convertir un elogio en recomendación."
+        },
+        "category": "service",
+        "icon": "Lightbulb"
+      },
+      "permissions": [
+        "navigation.contacts",
+        "navigation.inbox"
+      ],
+      "sha256": "487ce34707b179380b89eed4e6470063c6acacd8c54a342bf9862f94e517187a",
+      "byte_length": 8554,
+      "publisher_label": "Deskcomm",
+      "repository": "https://github.com/melgarafael/DeskcommCRM",
+      "tags": [
+        "pos-venda",
+        "indicacao",
+        "reclamacao"
+      ],
+      "published_at": "2026-10-06"
     },
     {
       "publisher": "deskcomm",
@@ -75,6 +370,43 @@
     },
     {
       "publisher": "deskcomm",
+      "name": "primeiro-atendimento-juridico",
+      "version": "1.0.0",
+      "license": "MIT",
+      "host_api": {
+        "min": 2,
+        "max": 2
+      },
+      "display": {
+        "title": {
+          "pt-BR": "Escritório: o primeiro atendimento",
+          "es": "Despacho: la primera atención"
+        },
+        "summary": {
+          "pt-BR": "Triagem pelo WhatsApp sem prometer resultado, sem opinar sobre o caso e sem perder o cliente: o que perguntar, o que nunca responder e como chegar à consulta com a papelada pronta.",
+          "es": "Triaje por WhatsApp sin prometer resultados, sin opinar sobre el caso y sin perder al cliente: qué preguntar, qué nunca responder y cómo llegar a la consulta con los documentos listos."
+        },
+        "category": "service",
+        "icon": "BookOpen"
+      },
+      "permissions": [
+        "navigation.inbox",
+        "navigation.agenda",
+        "navigation.tasks"
+      ],
+      "sha256": "3bf3d645c2f00baf11630f7cdbcccca7e028a750a2607a6c497cd3da1988fa92",
+      "byte_length": 8715,
+      "publisher_label": "Deskcomm",
+      "repository": "https://github.com/melgarafael/DeskcommCRM",
+      "tags": [
+        "advocacia",
+        "triagem",
+        "consulta"
+      ],
+      "published_at": "2026-10-06"
+    },
+    {
+      "publisher": "deskcomm",
       "name": "retorno-de-paciente",
       "version": "1.0.0",
       "license": "MIT",
@@ -110,5 +442,5 @@
       "published_at": "2026-09-18"
     }
   ],
-  "revision": 1
+  "revision": 2
 }

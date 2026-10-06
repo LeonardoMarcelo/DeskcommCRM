@@ -27,5 +27,99 @@
       "treinamento"
     ],
     "published_at": "2026-09-18"
+  },
+  "deskcomm/otica-receita-e-adaptacao": {
+    "publisher_label": "Deskcomm",
+    "repository": "https://github.com/melgarafael/DeskcommCRM",
+    "tags": [
+      "otica",
+      "receita",
+      "lente-de-contato",
+      "retorno"
+    ],
+    "published_at": "2026-10-06"
+  },
+  "deskcomm/orcamento-que-volta": {
+    "publisher_label": "Deskcomm",
+    "repository": "https://github.com/melgarafael/DeskcommCRM",
+    "tags": [
+      "vendas",
+      "orcamento",
+      "acompanhamento"
+    ],
+    "published_at": "2026-10-06"
+  },
+  "deskcomm/agenda-que-nao-fura": {
+    "publisher_label": "Deskcomm",
+    "repository": "https://github.com/melgarafael/DeskcommCRM",
+    "tags": [
+      "agenda",
+      "confirmacao",
+      "falta",
+      "clinica"
+    ],
+    "published_at": "2026-10-06"
+  },
+  "deskcomm/numero-que-nao-cai": {
+    "publisher_label": "Deskcomm",
+    "repository": "https://github.com/melgarafael/DeskcommCRM",
+    "tags": [
+      "whatsapp",
+      "higiene",
+      "aquecimento",
+      "campanha"
+    ],
+    "published_at": "2026-10-06"
+  },
+  "deskcomm/imovel-da-visita-a-proposta": {
+    "publisher_label": "Deskcomm",
+    "repository": "https://github.com/melgarafael/DeskcommCRM",
+    "tags": [
+      "imobiliaria",
+      "visita",
+      "vendas"
+    ],
+    "published_at": "2026-10-06"
+  },
+  "deskcomm/primeiro-atendimento-juridico": {
+    "publisher_label": "Deskcomm",
+    "repository": "https://github.com/melgarafael/DeskcommCRM",
+    "tags": [
+      "advocacia",
+      "triagem",
+      "consulta"
+    ],
+    "published_at": "2026-10-06"
+  },
+  "deskcomm/base-parada-reativada": {
+    "publisher_label": "Deskcomm",
+    "repository": "https://github.com/melgarafael/DeskcommCRM",
+    "tags": [
+      "reativacao",
+      "base",
+      "vendas"
+    ],
+    "published_at": "2026-10-06"
+  },
+  "deskcomm/pos-venda-e-indicacao": {
+    "publisher_label": "Deskcomm",
+    "repository": "https://github.com/melgarafael/DeskcommCRM",
+    "tags": [
+      "pos-venda",
+      "indicacao",
+      "reclamacao"
+    ],
+    "published_at": "2026-10-06"
+  },
+  "deskcomm/funil-que-diz-a-verdade": {
+    "publisher_label": "Deskcomm",
+    "repository": "https://github.com/melgarafael/DeskcommCRM",
+    "tags": [
+      "funil",
+      "etapas",
+      "perda",
+      "gestao"
+    ],
+    "published_at": "2026-10-06"
   }
 }

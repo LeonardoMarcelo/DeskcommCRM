@@ -1,0 +1,142 @@
+{
+  "format_version": 1,
+  "profile": "declarative",
+  "publisher": "deskcomm",
+  "name": "base-parada-reativada",
+  "version": "1.0.0",
+  "license": "MIT",
+  "host_api": {
+    "min": 2,
+    "max": 2
+  },
+  "permissions": [
+    "navigation.contacts",
+    "navigation.kanban"
+  ],
+  "dependencies": [],
+  "data": {
+    "mode": "none"
+  },
+  "display": {
+    "title": {
+      "pt-BR": "Reativar a base parada",
+      "es": "Reactivar la base detenida"
+    },
+    "summary": {
+      "pt-BR": "Quem já comprou uma vez é a venda mais barata que existe — e a mais abandonada. Como escolher quem chamar, em que ordem e com que mensagem, sem queimar a base nem o número.",
+      "es": "Quien ya compró una vez es la venta más barata que existe, y la más abandonada. Cómo elegir a quién contactar, en qué orden y con qué mensaje."
+    },
+    "category": "sales",
+    "icon": "Lightbulb"
+  },
+  "configuration": {
+    "density": "comfortable",
+    "show_description": true
+  },
+  "contributions": {
+    "crm_cards": [
+      {
+        "id": "quem-chamar-primeiro",
+        "title": {
+          "pt-BR": "Quem chamar primeiro",
+          "es": "A quién contactar primero"
+        },
+        "description": {
+          "pt-BR": "Reativação em bloco queima a base e o número. Reativação em fatias, começando pela melhor, ensina o que escrever para as próximas.",
+          "es": "La reactivación en bloque quema la base y el número. En tandas, empezando por la mejor, enseña qué escribir para las siguientes."
+        },
+        "icon": "Lightbulb",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Comece por quem comprou mais de uma vez",
+              "es": "Empiece por quien compró más de una vez"
+            },
+            "body": {
+              "pt-BR": "Cliente de compra repetida já provou que gosta do que você vende: ele responde mais, reclama menos e quase nunca denuncia. É o grupo onde você testa a mensagem com o menor risco. Quem comprou uma vez só, há muito tempo, fica para o fim — é o grupo mais frio e o que mais pede cuidado.",
+              "es": "El cliente de compra repetida ya probó que le gusta lo que usted vende: responde más, se queja menos y casi nunca denuncia. Es el grupo donde se prueba el mensaje con menor riesgo."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Fatias de algumas dezenas, não a base inteira",
+              "es": "Tandas de algunas decenas, no la base completa"
+            },
+            "body": {
+              "pt-BR": "Mande para um grupo pequeno, espere um dia, leia o que veio. Se a taxa de resposta for baixa ou aparecer pedido de descadastramento, o problema é a mensagem — e você descobriu isso com dezenas de pessoas em vez de milhares. Base inteira de uma vez é um experimento que só dá para rodar uma vez.",
+              "es": "Envíe a un grupo pequeño, espere un día, lea lo que llegó. Si la tasa de respuesta es baja o aparecen bajas, el problema es el mensaje, y lo descubrió con decenas de personas en lugar de miles."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Tire quem pediu para não receber",
+              "es": "Saque a quien pidió no recibir"
+            },
+            "body": {
+              "pt-BR": "Antes de qualquer envio, confirme que a lista não inclui quem já pediu para parar. É a exclusão que protege o número de denúncia e o negócio de problema legal — e é a mais fácil de esquecer, porque esse pedido quase sempre veio numa conversa antiga que ninguém relê.",
+              "es": "Antes de cualquier envío, confirme que la lista no incluye a quien ya pidió parar. Es la exclusión que protege el número de denuncias y al negocio de problemas legales."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir os contatos",
+            "es": "Abrir los contactos"
+          },
+          "capability": "contacts.open"
+        }
+      },
+      {
+        "id": "a-mensagem",
+        "title": {
+          "pt-BR": "A mensagem que reabre conversa",
+          "es": "El mensaje que reabre la conversación"
+        },
+        "description": {
+          "pt-BR": "Reativação não é anúncio. É alguém se lembrando de alguém — e tem de soar assim, senão vira o disparo que todo mundo ignora.",
+          "es": "La reactivación no es un anuncio. Es alguien recordando a alguien, y tiene que sonar así."
+        },
+        "icon": "BookOpen",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Prove que você lembra do que ele levou",
+              "es": "Demuestre que recuerda qué llevó"
+            },
+            "body": {
+              "pt-BR": "\"Você levou [produto] com a gente em [mês]\" muda tudo: é mensagem de quem conhece o cliente, não de quem comprou uma lista. Se o cadastro não guardar essa informação, a reativação fica genérica — e esse é o melhor argumento que existe para manter o cadastro em dia quando ninguém vê utilidade nele.",
+              "es": "\"Usted llevó [producto] con nosotros en [mes]\" cambia todo: es el mensaje de quien conoce al cliente, no de quien compró una lista."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Faça uma pergunta, não uma oferta",
+              "es": "Haga una pregunta, no una oferta"
+            },
+            "body": {
+              "pt-BR": "\"Ainda está usando? Precisa de reposição?\" abre conversa. \"Promoção de 20%\" abre a calculadora, e só funciona com quem já ia comprar. Pergunta tem resposta; anúncio tem silêncio. E a conversa aberta é o que permite vender o que ele precisa, em vez do que estava na promoção.",
+              "es": "\"¿Todavía lo usa? ¿Necesita reposición?\" abre conversación. \"Promoción del 20%\" abre la calculadora. La pregunta tiene respuesta; el anuncio tiene silencio."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Ofereça a saída na primeira mensagem",
+              "es": "Ofrezca la salida en el primer mensaje"
+            },
+            "body": {
+              "pt-BR": "Uma linha dizendo como parar de receber reduz denúncia e aumenta confiança, porque mostra que você não vai insistir. Parece contraintuitivo e é o contrário: quem sabe que pode sair com uma palavra não precisa usar o botão de denunciar para conseguir silêncio.",
+              "es": "Una línea diciendo cómo dejar de recibir reduce denuncias y aumenta la confianza: quien sabe que puede salir con una palabra no necesita usar el botón de denunciar."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir o funil",
+            "es": "Abrir el embudo"
+          },
+          "capability": "kanban.open"
+        }
+      }
+    ]
+  }
+}

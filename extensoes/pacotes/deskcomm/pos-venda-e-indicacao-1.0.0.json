@@ -1,0 +1,173 @@
+{
+  "format_version": 1,
+  "profile": "declarative",
+  "publisher": "deskcomm",
+  "name": "pos-venda-e-indicacao",
+  "version": "1.0.0",
+  "license": "MIT",
+  "host_api": {
+    "min": 2,
+    "max": 2
+  },
+  "permissions": [
+    "navigation.contacts",
+    "navigation.inbox"
+  ],
+  "dependencies": [],
+  "data": {
+    "mode": "none"
+  },
+  "display": {
+    "title": {
+      "pt-BR": "Pós-venda e indicação",
+      "es": "Posventa y recomendación"
+    },
+    "summary": {
+      "pt-BR": "O cliente satisfeito é o canal de aquisição mais barato que existe, e o único que quase ninguém pede. Quando perguntar, o que perguntar e como transformar elogio em indicação.",
+      "es": "El cliente satisfecho es el canal de adquisición más barato que existe, y el único que casi nadie pide. Cuándo preguntar, qué preguntar y cómo convertir un elogio en recomendación."
+    },
+    "category": "service",
+    "icon": "Lightbulb"
+  },
+  "configuration": {
+    "density": "comfortable",
+    "show_description": true
+  },
+  "contributions": {
+    "crm_cards": [
+      {
+        "id": "a-hora-de-perguntar",
+        "title": {
+          "pt-BR": "A hora de perguntar",
+          "es": "El momento de preguntar"
+        },
+        "description": {
+          "pt-BR": "Perguntar cedo demais pega quem ainda não usou; tarde demais pega quem já esqueceu. A janela existe e depende do que você vende.",
+          "es": "Preguntar demasiado pronto alcanza a quien aún no lo usó; demasiado tarde, a quien ya lo olvidó. La ventana existe y depende de lo que usted vende."
+        },
+        "icon": "Lightbulb",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Depois do primeiro uso, não depois da entrega",
+              "es": "Después del primer uso, no después de la entrega"
+            },
+            "body": {
+              "pt-BR": "A entrega é o seu marco; o primeiro uso é o do cliente. Para produto simples, isso é um ou dois dias; para algo que precisa de adaptação, uma semana. Perguntar \"gostou?\" no dia da entrega só mede a sua embalagem — e a resposta boa que você recebe ali não quer dizer nada sobre o produto.",
+              "es": "La entrega es su hito; el primer uso es el del cliente. Para un producto simple, uno o dos días; para algo que requiere adaptación, una semana."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Uma pergunta só, e aberta",
+              "es": "Una sola pregunta, y abierta"
+            },
+            "body": {
+              "pt-BR": "\"Como está sendo?\" rende mais que um formulário de cinco estrelas, e não exige nada de ninguém. Pesquisa com link e nota tem taxa de resposta baixa no WhatsApp porque obriga a pessoa a sair da conversa. A conversa é o próprio formulário, e ela já está aberta.",
+              "es": "\"¿Cómo le está yendo?\" rinde más que un formulario de cinco estrellas. Una encuesta con enlace tiene baja respuesta en WhatsApp porque obliga a salir de la conversación."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as conversas",
+            "es": "Abrir las conversaciones"
+          },
+          "capability": "inbox.open"
+        }
+      },
+      {
+        "id": "do-elogio-a-indicacao",
+        "title": {
+          "pt-BR": "Do elogio à indicação",
+          "es": "Del elogio a la recomendación"
+        },
+        "description": {
+          "pt-BR": "Elogio recebido e não aproveitado é o desperdício mais silencioso do negócio. O pedido tem de vir enquanto a frase ainda está na tela.",
+          "es": "Un elogio recibido y no aprovechado es el desperdicio más silencioso del negocio. El pedido debe llegar mientras la frase todavía está en pantalla."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Peça na mesma conversa, não numa campanha",
+              "es": "Pida en la misma conversación, no en una campaña"
+            },
+            "body": {
+              "pt-BR": "Quem acabou de dizer que gostou está no melhor momento possível, e responde a um pedido direto: \"Fico feliz! Se conhecer alguém precisando, me indica? Atendo por aqui mesmo.\" Esse mesmo pedido, enviado três semanas depois num disparo para a base, é ignorado — não porque o cliente mudou, mas porque o momento passou.",
+              "es": "Quien acaba de decir que le gustó está en el mejor momento posible: \"¡Me alegro! Si conoce a alguien que lo necesite, ¿me recomienda?\" Ese mismo pedido, tres semanas después en un envío masivo, se ignora."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Peça uma coisa específica",
+              "es": "Pida algo específico"
+            },
+            "body": {
+              "pt-BR": "\"Indica a gente\" é vago e não sai do lugar. \"Se alguém do seu trabalho precisar, passa meu contato\" ou \"se puder deixar uma avaliação, ajuda muito\" são pedidos que a pessoa consegue cumprir em trinta segundos. Pedido executável vira ação; pedido genérico vira intenção.",
+              "es": "\"Recomiéndenos\" es vago y no avanza. \"Si alguien de su trabajo lo necesita, pásele mi contacto\" es un pedido que la persona cumple en treinta segundos."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Registre quem indicou, e agradeça quando der",
+              "es": "Registre quién recomendó, y agradezca cuando ocurra"
+            },
+            "body": {
+              "pt-BR": "Marque no cadastro de quem veio cada cliente novo. Serve para duas coisas: você descobre quem são os seus poucos clientes que trazem muita gente, e consegue agradecer de volta quando a indicação fecha. Quem é agradecido indica de novo; quem indica no vácuo indica uma vez.",
+              "es": "Marque en el registro de dónde vino cada cliente nuevo: descubre quiénes son los pocos clientes que traen a mucha gente y puede agradecerles cuando la recomendación cierra."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir os contatos",
+            "es": "Abrir los contactos"
+          },
+          "capability": "contacts.open"
+        }
+      },
+      {
+        "id": "a-reclamacao",
+        "title": {
+          "pt-BR": "A reclamação é a melhor notícia do dia",
+          "es": "La queja es la mejor noticia del día"
+        },
+        "description": {
+          "pt-BR": "Quem reclama ainda está do seu lado da mesa. Quem não reclama e não volta já decidiu, e você nunca vai saber por quê.",
+          "es": "Quien se queja todavía está de su lado de la mesa. Quien no se queja y no vuelve ya decidió, y usted nunca sabrá por qué."
+        },
+        "icon": "BookOpen",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Responda rápido e sem defender",
+              "es": "Responda rápido y sin defenderse"
+            },
+            "body": {
+              "pt-BR": "A primeira resposta decide o tom de todo o resto. Reconheça o fato antes de explicar o motivo: \"Isso não era o combinado mesmo, me desculpa — vou resolver e te dou retorno hoje.\" Explicação antes do reconhecimento soa como desculpa, e desculpa soa como \"o problema é seu\".",
+              "es": "La primera respuesta decide el tono de todo lo demás. Reconozca el hecho antes de explicar el motivo. La explicación antes del reconocimiento suena a excusa."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Volte depois de resolver",
+              "es": "Vuelva después de resolver"
+            },
+            "body": {
+              "pt-BR": "Resolver e não avisar desperdiça o conserto: o cliente fica com a lembrança do problema e não a da solução. Uma mensagem depois — \"ficou certo agora?\" — é o que transforma reclamação em história boa, e é de onde vem a maioria das indicações mais fortes.",
+              "es": "Resolver y no avisar desperdicia el arreglo: el cliente se queda con el recuerdo del problema, no de la solución. Un mensaje después es lo que convierte la queja en una buena historia."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as conversas",
+            "es": "Abrir las conversaciones"
+          },
+          "capability": "inbox.open"
+        }
+      }
+    ]
+  }
+}

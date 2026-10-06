@@ -1,0 +1,174 @@
+{
+  "format_version": 1,
+  "profile": "declarative",
+  "publisher": "deskcomm",
+  "name": "imovel-da-visita-a-proposta",
+  "version": "1.0.0",
+  "license": "MIT",
+  "host_api": {
+    "min": 2,
+    "max": 2
+  },
+  "permissions": [
+    "navigation.kanban",
+    "navigation.agenda",
+    "navigation.inbox"
+  ],
+  "dependencies": [],
+  "data": {
+    "mode": "none"
+  },
+  "display": {
+    "title": {
+      "pt-BR": "Imobiliária: da visita à proposta",
+      "es": "Inmobiliaria: de la visita a la propuesta"
+    },
+    "summary": {
+      "pt-BR": "Qualificar antes de rodar a cidade, acompanhar depois da visita e descobrir cedo quem decide junto. O que separa corretor ocupado de corretor que fecha.",
+      "es": "Calificar antes de recorrer la ciudad, dar seguimiento después de la visita y descubrir pronto quién decide en conjunto."
+    },
+    "category": "sales",
+    "icon": "BookOpen"
+  },
+  "configuration": {
+    "density": "comfortable",
+    "show_description": true
+  },
+  "contributions": {
+    "crm_cards": [
+      {
+        "id": "antes-de-marcar-visita",
+        "title": {
+          "pt-BR": "Três perguntas antes de marcar a visita",
+          "es": "Tres preguntas antes de agendar la visita"
+        },
+        "description": {
+          "pt-BR": "Visita é o recurso mais caro da imobiliária: consome a tarde de alguém. Vale gastá-la com quem pode comprar.",
+          "es": "La visita es el recurso más caro de la inmobiliaria: consume la tarde de alguien. Vale gastarla con quien puede comprar."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Como pretende pagar",
+              "es": "Cómo piensa pagar"
+            },
+            "body": {
+              "pt-BR": "Financiamento, à vista ou venda de outro imóvel mudam completamente o prazo e a lista de imóveis que serve. Quem vai financiar e ainda não tem aprovação precisa dessa etapa antes da visita, não depois — descobrir isso na hora da proposta é perder o imóvel e o cliente no mesmo dia.",
+              "es": "Financiamiento, pago al contado o venta de otra propiedad cambian por completo el plazo y la lista que sirve. Quien va a financiar y aún no tiene aprobación necesita ese paso antes de la visita."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Quem mais decide com você",
+              "es": "Quién más decide con usted"
+            },
+            "body": {
+              "pt-BR": "Imóvel quase nunca é decisão de uma pessoa. Pergunte logo: \"Tem mais alguém que vai visitar junto ou opinar na escolha?\" Visita feita sem quem decide costuma virar uma segunda visita — e às vezes a segunda não acontece. Trazer todo mundo de uma vez é mais barato para você e menos cansativo para o cliente.",
+              "es": "Una propiedad casi nunca es decisión de una sola persona. Pregunte pronto: \"¿Hay alguien más que visite o que opine en la elección?\""
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "O prazo real da mudança",
+              "es": "El plazo real de la mudanza"
+            },
+            "body": {
+              "pt-BR": "\"Preciso entrar em março\" e \"estou olhando sem pressa\" são dois clientes diferentes e merecem dois tratamentos diferentes. O de março entra no acompanhamento semanal; o sem pressa entra no contato mensal e não some do funil. Tratar os dois igual é cansar o primeiro e perder o segundo.",
+              "es": "\"Necesito entrar en marzo\" y \"estoy mirando sin prisa\" son dos clientes distintos y merecen dos tratos distintos."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as conversas",
+            "es": "Abrir las conversaciones"
+          },
+          "capability": "inbox.open"
+        }
+      },
+      {
+        "id": "depois-da-visita",
+        "title": {
+          "pt-BR": "O contato depois da visita",
+          "es": "El contacto después de la visita"
+        },
+        "description": {
+          "pt-BR": "A visita acabou e o cliente ainda está formando opinião. As próximas horas valem mais que a semana seguinte.",
+          "es": "La visita terminó y el cliente aún está formando su opinión. Las próximas horas valen más que la semana siguiente."
+        },
+        "icon": "Lightbulb",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Pergunte o que não serviu",
+              "es": "Pregunte qué no sirvió"
+            },
+            "body": {
+              "pt-BR": "\"O que gostou?\" rende elogio educado. \"O que faltou nesse, para eu não te mostrar parecido de novo?\" rende critério — e critério é o que permite a terceira visita ser melhor que a primeira. Anote a resposta no negócio: ela é o filtro de tudo o que você vai mandar depois.",
+              "es": "\"¿Qué le gustó?\" genera un elogio cortés. \"¿Qué le faltó a este, para no mostrarle algo parecido otra vez?\" genera criterio."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Mova o negócio no mesmo dia",
+              "es": "Mueva el negocio el mismo día"
+            },
+            "body": {
+              "pt-BR": "Visitou e você não mexeu no funil: na quarta-feira ninguém lembra se aquele cliente viu dois ou cinco imóveis, nem o que achou. Etapa atualizada no dia é o que permite outra pessoa da equipe atender esse cliente sem recomeçar a conversa do zero.",
+              "es": "Visitó y usted no movió el embudo: el miércoles nadie recuerda si ese cliente vio dos o cinco propiedades. La etapa actualizada en el día permite que otra persona del equipo lo atienda sin empezar de cero."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir o funil",
+            "es": "Abrir el embudo"
+          },
+          "capability": "kanban.open"
+        }
+      },
+      {
+        "id": "o-cliente-sem-pressa",
+        "title": {
+          "pt-BR": "O cliente sem pressa não é cliente perdido",
+          "es": "El cliente sin prisa no es un cliente perdido"
+        },
+        "description": {
+          "pt-BR": "Boa parte das vendas de imóvel acontece meses depois do primeiro contato, com quem ninguém acompanhou.",
+          "es": "Buena parte de las ventas de propiedades ocurre meses después del primer contacto, con quien nadie dio seguimiento."
+        },
+        "icon": "BookOpen",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Contato mensal com motivo",
+              "es": "Contacto mensual con motivo"
+            },
+            "body": {
+              "pt-BR": "Um imóvel novo que casa com o critério que ele te deu, uma mudança de preço no que ele visitou, uma condição de financiamento que abriu. Qualquer um desses é motivo. \"Oi, alguma novidade?\" não é motivo, e é o que faz o corretor desistir de acompanhar — porque nem ele aguenta mandar.",
+              "es": "Una propiedad nueva que encaja con el criterio que le dio, un cambio de precio en lo que visitó, una condición de financiamiento que se abrió. \"Hola, ¿alguna novedad?\" no es un motivo."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Agende o próximo contato como compromisso",
+              "es": "Agende el próximo contacto como compromiso"
+            },
+            "body": {
+              "pt-BR": "Acompanhamento que depende de memória não acontece em carteira grande. Deixe o próximo contato marcado na agenda, com o motivo já escrito. É o que diferencia uma carteira de duzentos clientes de uma lista de duzentos nomes.",
+              "es": "Un seguimiento que depende de la memoria no ocurre en una cartera grande. Deje el próximo contacto agendado, con el motivo ya escrito."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir a agenda",
+            "es": "Abrir la agenda"
+          },
+          "capability": "agenda.open"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "format_version": 1,
+  "profile": "declarative",
+  "publisher": "deskcomm",
+  "name": "numero-que-nao-cai",
+  "version": "1.0.0",
+  "license": "MIT",
+  "host_api": {
+    "min": 2,
+    "max": 2
+  },
+  "permissions": [
+    "navigation.inbox",
+    "navigation.contacts"
+  ],
+  "dependencies": [],
+  "data": {
+    "mode": "none"
+  },
+  "display": {
+    "title": {
+      "pt-BR": "O número que não cai",
+      "es": "El número que no se cae"
+    },
+    "summary": {
+      "pt-BR": "Higiene de WhatsApp para quem depende dele: aquecimento, ritmo de disparo, variação de texto e os sinais de que a conta está sendo punida antes do bloqueio.",
+      "es": "Higiene de WhatsApp para quien depende de él: calentamiento, ritmo de envío, variación de texto y las señales de que la cuenta está siendo penalizada antes del bloqueo."
+    },
+    "category": "productivity",
+    "icon": "ListChecks"
+  },
+  "configuration": {
+    "density": "comfortable",
+    "show_description": true
+  },
+  "contributions": {
+    "crm_cards": [
+      {
+        "id": "aquecimento",
+        "title": {
+          "pt-BR": "Número novo precisa de aquecimento",
+          "es": "Un número nuevo necesita calentamiento"
+        },
+        "description": {
+          "pt-BR": "A maioria dos bloqueios acontece na primeira semana de um número novo, e quase sempre pelo mesmo motivo: volume alto antes de existir histórico.",
+          "es": "La mayoría de los bloqueos ocurre en la primera semana de un número nuevo, y casi siempre por el mismo motivo: volumen alto antes de que exista historial."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Sete a quatorze dias antes do primeiro disparo",
+              "es": "Siete a catorce días antes del primer envío"
+            },
+            "body": {
+              "pt-BR": "Comece recebendo: peça a clientes e à equipe que mandem mensagem para o número e responda cada uma. Conversa com resposta dos dois lados é o sinal que distingue atendimento de disparo. Suba o volume aos poucos ao longo de uma a duas semanas, e só depois disso use o número em campanha.",
+              "es": "Empiece recibiendo: pida a clientes y al equipo que escriban al número y responda cada mensaje. Una conversación con respuesta de ambos lados es la señal que distingue atención de envío masivo."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Não importe lista comprada. Nunca",
+              "es": "No importe listas compradas. Nunca"
+            },
+            "body": {
+              "pt-BR": "Lista comprada é a forma mais rápida de perder um número: a taxa de denúncia é alta porque ninguém ali pediu contato, e bastam poucas denúncias para derrubar a conta. Além disso, mandar mensagem a quem não consentiu é tratamento de dado sem base legal — o risco não é só o bloqueio.",
+              "es": "Una lista comprada es la forma más rápida de perder un número: la tasa de denuncia es alta porque nadie ahí pidió contacto. Además, escribir a quien no consintió es tratamiento de datos sin base legal."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as conversas",
+            "es": "Abrir las conversaciones"
+          },
+          "capability": "inbox.open"
+        }
+      },
+      {
+        "id": "ritmo-e-texto",
+        "title": {
+          "pt-BR": "Ritmo e variação de texto",
+          "es": "Ritmo y variación de texto"
+        },
+        "description": {
+          "pt-BR": "O que denuncia um robô não é o conteúdo da mensagem: é a regularidade do intervalo e a repetição exata do texto.",
+          "es": "Lo que delata a un robot no es el contenido del mensaje: es la regularidad del intervalo y la repetición exacta del texto."
+        },
+        "icon": "Lightbulb",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Intervalo com variação, não intervalo fixo",
+              "es": "Intervalo con variación, no intervalo fijo"
+            },
+            "body": {
+              "pt-BR": "Mil mensagens com exatamente o mesmo intervalo entre elas é um padrão que nenhuma pessoa produz. Em atendimento, cerca de uma mensagem por segundo e pouco, com variação aleatória de até menos de um segundo, passa por humano. Em campanha, o ritmo cai bastante — na ordem de uma mensagem a cada cinco segundos. Esses limites são configuração do canal, e vale conferi-los antes de uma campanha grande em vez de confiar na memória.",
+              "es": "Mil mensajes con exactamente el mismo intervalo entre ellos es un patrón que ninguna persona produce. En atención, cerca de un mensaje por segundo con variación aleatoria pasa por humano; en campaña el ritmo baja mucho."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Varie o texto de verdade",
+              "es": "Varíe el texto de verdad"
+            },
+            "body": {
+              "pt-BR": "Três versões da mesma mensagem, alternadas, valem mais que uma versão perfeita repetida mil vezes. Varie a saudação, a ordem das frases e o fechamento. Mensagem idêntica enviada em massa é o padrão mais fácil de detectar que existe — e o nome do cliente no começo não conta como variação.",
+              "es": "Tres versiones del mismo mensaje, alternadas, valen más que una versión perfecta repetida mil veces. Varíe el saludo, el orden de las frases y el cierre."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Respeite a janela de horário",
+              "es": "Respete la ventana de horario"
+            },
+            "body": {
+              "pt-BR": "Disparo de madrugada rende denúncia, não venda. Mantenha a janela em horário comercial estendido e deixe a configuração do canal decidir, em vez de contar com quem aperta o botão. Mensagem fora de hora é lembrada pelo incômodo, e é esse incômodo que vira o toque no botão de denunciar.",
+              "es": "El envío de madrugada genera denuncias, no ventas. Mantenga la ventana en horario comercial extendido y deje que la configuración del canal decida."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as conversas",
+            "es": "Abrir las conversaciones"
+          },
+          "capability": "inbox.open"
+        }
+      },
+      {
+        "id": "sinais-antes-do-bloqueio",
+        "title": {
+          "pt-BR": "Os sinais que vêm antes do bloqueio",
+          "es": "Las señales que llegan antes del bloqueo"
+        },
+        "description": {
+          "pt-BR": "A conta quase nunca cai sem avisar. O aviso é discreto e aparece nas entregas, não numa notificação.",
+          "es": "La cuenta casi nunca se cae sin avisar. El aviso es discreto y aparece en las entregas, no en una notificación."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Queda na entrega é o primeiro sintoma",
+              "es": "La caída en la entrega es el primer síntoma"
+            },
+            "body": {
+              "pt-BR": "Quando mensagens começam a ficar com um tique só, ou a demorar para sair, a conta já está sendo limitada. A reação certa é reduzir o volume no mesmo dia e voltar a conversar com quem responde — e não trocar de número, que recomeça o problema do zero com um número sem histórico.",
+              "es": "Cuando los mensajes empiezan a quedar con una sola marca, o tardan en salir, la cuenta ya está limitada. La reacción correcta es reducir el volumen el mismo día."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Quem pediu para parar, para de receber",
+              "es": "Quien pidió parar deja de recibir"
+            },
+            "body": {
+              "pt-BR": "Pedido de descadastramento ignorado é a denúncia mais provável que existe, porque a pessoa já disse por escrito que não quer. Respeite na hora, e respeite em todos os canais — não só naquela conversa. Uma base menor que responde vale mais do que uma base grande que denuncia.",
+              "es": "Un pedido de baja ignorado es la denuncia más probable que existe, porque la persona ya dijo por escrito que no quiere. Respételo de inmediato y en todos los canales."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir os contatos",
+            "es": "Abrir los contactos"
+          },
+          "capability": "contacts.open"
+        }
+      }
+    ]
+  }
+}

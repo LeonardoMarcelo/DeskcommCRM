@@ -1,0 +1,163 @@
+{
+  "format_version": 1,
+  "profile": "declarative",
+  "publisher": "deskcomm",
+  "name": "funil-que-diz-a-verdade",
+  "version": "1.0.0",
+  "license": "MIT",
+  "host_api": {
+    "min": 2,
+    "max": 2
+  },
+  "permissions": [
+    "navigation.kanban",
+    "navigation.radar"
+  ],
+  "dependencies": [],
+  "data": {
+    "mode": "none"
+  },
+  "display": {
+    "title": {
+      "pt-BR": "Um funil que diz a verdade",
+      "es": "Un embudo que dice la verdad"
+    },
+    "summary": {
+      "pt-BR": "Funil com etapa que ninguém usa e negócio parado há meses não informa nada. Como nomear etapas, quando mover, o que registrar na perda e por que o número de etapas importa menos do que parece.",
+      "es": "Un embudo con etapas que nadie usa y negocios detenidos hace meses no informa nada. Cómo nombrar etapas, cuándo mover y qué registrar en la pérdida."
+    },
+    "category": "productivity",
+    "icon": "ListChecks"
+  },
+  "configuration": {
+    "density": "comfortable",
+    "show_description": true
+  },
+  "contributions": {
+    "crm_cards": [
+      {
+        "id": "nomear-as-etapas",
+        "title": {
+          "pt-BR": "Etapa é o que aconteceu, não o que você sente",
+          "es": "La etapa es lo que ocurrió, no lo que usted siente"
+        },
+        "description": {
+          "pt-BR": "\"Em negociação\" e \"quente\" descrevem o humor de quem vende. \"Proposta enviada\" e \"visita feita\" descrevem fato — e só fato pode ser conferido por outra pessoa.",
+          "es": "\"En negociación\" y \"caliente\" describen el ánimo de quien vende. \"Propuesta enviada\" y \"visita realizada\" describen hechos."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Cada etapa é um evento verificável",
+              "es": "Cada etapa es un evento verificable"
+            },
+            "body": {
+              "pt-BR": "Se duas pessoas da equipe podem discordar sobre em que etapa um negócio está, a etapa está mal nomeada. \"Orçamento enviado\" não admite discussão: ou o arquivo saiu, ou não saiu. Funil feito de fatos pode ser auditado, dividido entre pessoas e lido por quem não participou da conversa.",
+              "es": "Si dos personas del equipo pueden discrepar sobre en qué etapa está un negocio, la etapa está mal nombrada. \"Presupuesto enviado\" no admite discusión."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Quatro a seis etapas basta",
+              "es": "Cuatro a seis etapas bastan"
+            },
+            "body": {
+              "pt-BR": "Funil com doze etapas vira funil com três usadas e nove vazias — e aí a média de tempo por etapa deixa de significar qualquer coisa. Comece pelas etapas que você consegue preencher todo dia e acrescente uma só quando a falta dela estiver doendo. Etapa que nunca recebe cartão é ruído na tela e na conta.",
+              "es": "Un embudo con doce etapas se convierte en uno con tres usadas y nueve vacías. Empiece por las que logra llenar todos los días y agregue una solo cuando su falta duela."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir o funil",
+            "es": "Abrir el embudo"
+          },
+          "capability": "kanban.open"
+        }
+      },
+      {
+        "id": "negocio-parado",
+        "title": {
+          "pt-BR": "Negócio parado é dívida, não esperança",
+          "es": "Un negocio detenido es deuda, no esperanza"
+        },
+        "description": {
+          "pt-BR": "Um funil cheio de cartões antigos dá a sensação de pipeline forte e a certeza de previsão errada.",
+          "es": "Un embudo lleno de tarjetas viejas da la sensación de un pipeline fuerte y la certeza de un pronóstico equivocado."
+        },
+        "icon": "Lightbulb",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Defina quantos dias são demais, por etapa",
+              "es": "Defina cuántos días son demasiado, por etapa"
+            },
+            "body": {
+              "pt-BR": "Cada etapa tem um tempo normal: orçamento parado há dez dias é diferente de visita marcada para o mês que vem. Escolha o limite de cada uma e trate quem passou dele — contato, ou encerramento. Sem limite escrito, \"parado\" é opinião, e opinião não entra em relatório.",
+              "es": "Cada etapa tiene un tiempo normal. Elija el límite de cada una y atienda a quien lo superó: contacto o cierre. Sin un límite escrito, \"detenido\" es una opinión."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Encerrar não é perder, é limpar",
+              "es": "Cerrar no es perder, es limpiar"
+            },
+            "body": {
+              "pt-BR": "Cartão de três meses atrás no meio do funil esconde o que é de verdade desta semana. Encerrar com motivo devolve atenção para quem está respondendo e torna a previsão utilizável. O cliente encerrado não desaparece: ele fica no cadastro e volta por reativação, que é um trabalho diferente e mais barato.",
+              "es": "Una tarjeta de hace tres meses en medio del embudo esconde lo que es real de esta semana. Cerrar con motivo devuelve atención a quien responde."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir o radar",
+            "es": "Abrir el radar"
+          },
+          "capability": "radar.open"
+        }
+      },
+      {
+        "id": "motivo-de-perda",
+        "title": {
+          "pt-BR": "O motivo da perda é o dado mais útil do funil",
+          "es": "El motivo de la pérdida es el dato más útil del embudo"
+        },
+        "description": {
+          "pt-BR": "Quantos você perdeu não ensina nada. Por que você perdeu muda preço, prazo, roteiro de atendimento e às vezes o produto.",
+          "es": "Cuántos perdió no enseña nada. Por qué perdió cambia precio, plazo, guion de atención y a veces el producto."
+        },
+        "icon": "BookOpen",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Poucos motivos, e nenhum deles \"outro\"",
+              "es": "Pocos motivos, y ninguno \"otro\""
+            },
+            "body": {
+              "pt-BR": "Cinco motivos concretos — preço, prazo, foi para o concorrente, desistiu da compra, sem resposta — cobrem quase tudo e podem ser contados. Uma lista com \"outro\" acumula metade das perdas ali, e metade dos dados vai para um campo que não diz nada. Se \"outro\" cresce, falta um motivo na lista: acrescente-o.",
+              "es": "Cinco motivos concretos cubren casi todo y pueden contarse. Una lista con \"otro\" acumula la mitad de las pérdidas ahí. Si \"otro\" crece, falta un motivo en la lista."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Leia os motivos uma vez por mês",
+              "es": "Lea los motivos una vez al mes"
+            },
+            "body": {
+              "pt-BR": "Registrar e nunca olhar é burocracia. Meia hora por mês contando as perdas por motivo responde o que nenhuma reunião responde: se o problema é a tabela, a entrega ou o atendimento. E quando a equipe vê que o campo é lido, ele passa a ser preenchido — o inverso também é verdade.",
+              "es": "Registrar y nunca mirar es burocracia. Media hora al mes contando las pérdidas por motivo responde si el problema es la tarifa, la entrega o la atención."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir o funil",
+            "es": "Abrir el embudo"
+          },
+          "capability": "kanban.open"
+        }
+      }
+    ]
+  }
+}

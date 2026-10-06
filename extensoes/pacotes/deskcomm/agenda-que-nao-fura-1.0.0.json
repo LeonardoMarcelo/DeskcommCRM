@@ -1,0 +1,132 @@
+{
+  "format_version": 1,
+  "profile": "declarative",
+  "publisher": "deskcomm",
+  "name": "agenda-que-nao-fura",
+  "version": "1.0.0",
+  "license": "MIT",
+  "host_api": {
+    "min": 2,
+    "max": 2
+  },
+  "permissions": [
+    "navigation.agenda",
+    "navigation.inbox"
+  ],
+  "dependencies": [],
+  "data": {
+    "mode": "none"
+  },
+  "display": {
+    "title": {
+      "pt-BR": "Agenda que não fura",
+      "es": "Agenda que no se cae"
+    },
+    "summary": {
+      "pt-BR": "Falta não é azar, é processo. Como confirmar sem parecer cobrança, o que fazer com o horário vago e por que a lista de espera vale mais que a multa.",
+      "es": "La ausencia no es mala suerte, es proceso. Cómo confirmar sin parecer cobro, qué hacer con el horario libre y por qué la lista de espera vale más que la multa."
+    },
+    "category": "productivity",
+    "icon": "ListChecks"
+  },
+  "configuration": {
+    "density": "comfortable",
+    "show_description": true
+  },
+  "contributions": {
+    "crm_cards": [
+      {
+        "id": "a-confirmacao",
+        "title": {
+          "pt-BR": "A confirmação que reduz a falta",
+          "es": "La confirmación que reduce la ausencia"
+        },
+        "description": {
+          "pt-BR": "Lembrete e confirmação são coisas diferentes. Um avisa, o outro pede uma decisão — e só o segundo libera o horário quando a resposta é não.",
+          "es": "Recordatorio y confirmación son cosas distintas. Uno avisa, el otro pide una decisión, y solo el segundo libera el horario cuando la respuesta es no."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Peça resposta, não dê recado",
+              "es": "Pida respuesta, no deje un aviso"
+            },
+            "body": {
+              "pt-BR": "\"Seu horário é amanhã às 14h\" não exige nada de quem lê. \"Confirma amanhã às 14h? Responde 1 para confirmar ou 2 para remarcar\" transforma o silêncio em informação: quem não responde é risco conhecido, e dá para ligar ou oferecer o horário a outra pessoa antes de perdê-lo.",
+              "es": "\"Su horario es mañana a las 14h\" no exige nada de quien lo lee. \"¿Confirma mañana a las 14h? Responda 1 para confirmar o 2 para reprogramar\" convierte el silencio en información."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Vinte e quatro horas antes, não duas",
+              "es": "Veinticuatro horas antes, no dos"
+            },
+            "body": {
+              "pt-BR": "A confirmação existe para você conseguir reocupar o horário, e isso leva tempo. Mandada duas horas antes, ela só avisa que você vai perder a vaga. Um dia antes ainda dá para chamar a lista de espera. Em agenda muito cheia, vale o par: um dia antes para confirmar, duas horas antes para lembrar quem confirmou.",
+              "es": "La confirmación existe para que usted logre reocupar el horario, y eso toma tiempo. Enviada dos horas antes, solo avisa que va a perder el espacio."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Diga quanto tempo o horário leva",
+              "es": "Diga cuánto dura el horario"
+            },
+            "body": {
+              "pt-BR": "Boa parte das faltas é de quem reservou sem saber que precisaria de uma hora e meia. Dizer a duração na confirmação faz a pessoa remarcar em vez de faltar — e remarcação avisada é horário recuperado, enquanto falta é horário perdido duas vezes: o seu e o de quem queria aquela vaga.",
+              "es": "Buena parte de las ausencias es de quien reservó sin saber que necesitaría una hora y media. Decir la duración en la confirmación hace que la persona reprograme en lugar de faltar."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir a agenda",
+            "es": "Abrir la agenda"
+          },
+          "capability": "agenda.open"
+        }
+      },
+      {
+        "id": "o-horario-vago",
+        "title": {
+          "pt-BR": "O que fazer com o horário que vagou",
+          "es": "Qué hacer con el horario que quedó libre"
+        },
+        "description": {
+          "pt-BR": "Horário vago descoberto às 13h50 é prejuízo. Descoberto na véspera, é oportunidade para quem estava esperando.",
+          "es": "Un horario libre descubierto a las 13:50 es pérdida. Descubierto el día anterior, es una oportunidad para quien estaba esperando."
+        },
+        "icon": "Lightbulb",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Tenha lista de espera antes de ter multa",
+              "es": "Tenga lista de espera antes de tener multa"
+            },
+            "body": {
+              "pt-BR": "Multa por falta recupera parte do valor e custa a relação. Lista de espera recupera o valor inteiro e ainda atende alguém mais cedo do que ele esperava. Marque quem pediu horário e aceitou ser chamado em cima da hora; quando vagar, o primeiro da lista recebe a oferta.",
+              "es": "La multa por ausencia recupera parte del valor y cuesta la relación. La lista de espera recupera el valor completo y además atiende a alguien antes de lo que esperaba."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Remarque na mesma conversa, sem formulário",
+              "es": "Reprograme en la misma conversación, sin formulario"
+            },
+            "body": {
+              "pt-BR": "Quem avisou que não vem está, naquele instante, disposto a resolver. Ofereça dois horários concretos ali mesmo: \"Tenho quinta às 10h ou sexta às 16h — qual fica melhor?\" Mandar a pessoa \"entrar em contato para remarcar\" é devolver o problema a quem já estava com a mão no bolso.",
+              "es": "Quien avisó que no viene está, en ese instante, dispuesto a resolverlo. Ofrezca dos horarios concretos ahí mismo: \"Tengo jueves a las 10h o viernes a las 16h, ¿cuál le queda mejor?\""
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as conversas",
+            "es": "Abrir las conversaciones"
+          },
+          "capability": "inbox.open"
+        }
+      }
+    ]
+  }
+}

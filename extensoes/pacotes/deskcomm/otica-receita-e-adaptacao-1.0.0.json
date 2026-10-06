@@ -1,0 +1,184 @@
+{
+  "format_version": 1,
+  "profile": "declarative",
+  "publisher": "deskcomm",
+  "name": "otica-receita-e-adaptacao",
+  "version": "1.0.0",
+  "license": "MIT",
+  "host_api": {
+    "min": 2,
+    "max": 2
+  },
+  "permissions": [
+    "navigation.inbox",
+    "navigation.agenda",
+    "navigation.contacts"
+  ],
+  "dependencies": [],
+  "data": {
+    "mode": "none"
+  },
+  "display": {
+    "title": {
+      "pt-BR": "Ótica: da receita ao retorno",
+      "es": "Óptica: de la receta al retorno"
+    },
+    "summary": {
+      "pt-BR": "O que perguntar quando chega a foto de uma receita, como acompanhar a adaptação de lente de contato e por que o retorno de um ano é a venda mais barata da loja.",
+      "es": "Qué preguntar cuando llega la foto de una receta, cómo acompañar la adaptación de lentes de contacto y por qué el retorno anual es la venta más barata de la tienda."
+    },
+    "category": "service",
+    "icon": "BookOpen"
+  },
+  "configuration": {
+    "density": "comfortable",
+    "show_description": true
+  },
+  "contributions": {
+    "crm_cards": [
+      {
+        "id": "chegou-a-receita",
+        "title": {
+          "pt-BR": "Chegou a foto da receita",
+          "es": "Llegó la foto de la receta"
+        },
+        "description": {
+          "pt-BR": "A foto da receita é a intenção de compra mais clara que existe. O que decide a venda é o que se pergunta nos cinco minutos seguintes.",
+          "es": "La foto de la receta es la intención de compra más clara que existe. Lo que decide la venta es lo que se pregunta en los cinco minutos siguientes."
+        },
+        "icon": "BookOpen",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Confirme a data antes de qualquer preço",
+              "es": "Confirme la fecha antes de cualquier precio"
+            },
+            "body": {
+              "pt-BR": "Receita tem validade, e orçar sobre receita vencida gera troca, retrabalho e cliente irritado. Pergunte a data do exame antes de falar de valor: \"Essa receita é de quando? Se tiver mais de um ano, vale remarcar o exame antes — a gente evita você pagar por uma lente que já não é o seu grau.\" A frase protege o cliente e, por isso, é a que mais vende.",
+              "es": "La receta tiene validez, y presupuestar sobre una receta vencida genera cambios, retrabajo y cliente molesto. Pregunte la fecha del examen antes de hablar de valor: \"¿De cuándo es esa receta? Si tiene más de un año, vale la pena repetir el examen antes.\""
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Pergunte o uso, não o produto",
+              "es": "Pregunte el uso, no el producto"
+            },
+            "body": {
+              "pt-BR": "Ninguém sabe dizer qual tratamento quer, mas todo mundo sabe dizer o que faz do dia. \"Você passa o dia em tela, dirige à noite, trabalha no sol?\" Cada resposta aponta uma lente diferente — antirreflexo, filtro de luz azul, fotossensível — e a recomendação deixa de ser catálogo e passa a ser resposta. Vender tratamento sem ter perguntado o uso é desconto pedido na hora seguinte.",
+              "es": "Nadie sabe decir qué tratamiento quiere, pero todos saben decir qué hacen en su día. \"¿Pasa el día frente a pantallas, conduce de noche, trabaja al sol?\" Cada respuesta apunta a una lente distinta y la recomendación deja de ser catálogo."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Registre o grau no cadastro, não na conversa",
+              "es": "Registre la graduación en el registro, no en la conversación"
+            },
+            "body": {
+              "pt-BR": "Grau que vive só no histórico do WhatsApp morre na próxima compra: quem atender daqui a um ano vai pedir a receita de novo, e o cliente vai responder que já mandou. Grave no cadastro do contato assim que confirmar. É o que transforma a segunda compra em dois minutos de conversa em vez de vinte.",
+              "es": "La graduación que vive solo en el historial de WhatsApp muere en la próxima compra: quien atienda en un año pedirá la receta de nuevo. Guárdela en el registro del contacto al confirmarla."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as conversas",
+            "es": "Abrir las conversaciones"
+          },
+          "capability": "inbox.open"
+        }
+      },
+      {
+        "id": "adaptacao-de-lente-de-contato",
+        "title": {
+          "pt-BR": "Adaptação de lente de contato",
+          "es": "Adaptación de lentes de contacto"
+        },
+        "description": {
+          "pt-BR": "Adaptação é o único atendimento da ótica em que o silêncio do cliente é sinal ruim. Quem não volta na primeira semana em geral desistiu da lente, não se acostumou com ela.",
+          "es": "La adaptación es el único servicio de la óptica donde el silencio del cliente es mala señal. Quien no vuelve en la primera semana suele haber abandonado la lente."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "O contato do terceiro dia é o que segura a venda",
+              "es": "El contacto del tercer día es el que sostiene la venta"
+            },
+            "body": {
+              "pt-BR": "No terceiro dia a pessoa já sentiu o incômodo e ainda não decidiu desistir — é a única janela em que uma orientação simples ainda resolve. Pergunte o concreto: \"Conseguiu colocar e tirar sozinho? Está ardendo ao final do dia? Quantas horas está usando?\" Quase toda desistência vem de uso excessivo nos primeiros dias ou de lente colocada do lado errado, e as duas se consertam numa mensagem.",
+              "es": "En el tercer día la persona ya sintió la molestia y aún no decidió abandonar. Pregunte lo concreto: \"¿Logró ponerla y quitarla solo? ¿Le arde al final del día? ¿Cuántas horas la usa?\""
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Marque o retorno antes de ele sair da loja",
+              "es": "Agende el retorno antes de que salga de la tienda"
+            },
+            "body": {
+              "pt-BR": "\"Qualquer coisa me chama\" não é retorno marcado — é retorno que não acontece. Saia da entrega com data e hora na agenda, de preferência entre sete e dez dias. Retorno agendado tem presença; retorno em aberto depende de o cliente lembrar no dia em que estiver incomodado, e quem está incomodado procura outra loja.",
+              "es": "\"Cualquier cosa me avisa\" no es un retorno agendado: es un retorno que no ocurre. Salga de la entrega con fecha y hora en la agenda, entre siete y diez días."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Desistência é informação, e tem de voltar para a loja",
+              "es": "El abandono es información y debe volver a la tienda"
+            },
+            "body": {
+              "pt-BR": "Quando alguém abandona a lente, anote o motivo real — ardência, dificuldade de manuseio, preço da manutenção. Três desistências pelo mesmo motivo não são três clientes difíceis: é a sua orientação de entrega que está faltando um passo. Sem o motivo registrado, essa conta nunca fecha.",
+              "es": "Cuando alguien abandona la lente, anote el motivo real. Tres abandonos por el mismo motivo no son tres clientes difíciles: es su orientación de entrega la que falta un paso."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir a agenda",
+            "es": "Abrir la agenda"
+          },
+          "capability": "agenda.open"
+        }
+      },
+      {
+        "id": "retorno-de-um-ano",
+        "title": {
+          "pt-BR": "O retorno de um ano",
+          "es": "El retorno de un año"
+        },
+        "description": {
+          "pt-BR": "A base de quem já comprou é o estoque mais barato da ótica, e é o único que quase nenhuma loja usa.",
+          "es": "La base de quien ya compró es el inventario más barato de la óptica, y el único que casi ninguna tienda usa."
+        },
+        "icon": "Lightbulb",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Convide para o exame, não para a promoção",
+              "es": "Invite al examen, no a la promoción"
+            },
+            "body": {
+              "pt-BR": "\"Faz um ano do seu último exame — quer que eu reserve um horário para conferir se o grau mudou?\" é um motivo que existe do lado do cliente. \"Estamos com 30% off\" é um motivo que existe do lado da loja, e a diferença aparece na taxa de resposta. Quem vem pelo exame compra pelo grau novo; quem vem pelo desconto só volta no próximo desconto.",
+              "es": "\"Hace un año de su último examen, ¿quiere que le reserve un horario para ver si cambió la graduación?\" es un motivo que existe del lado del cliente. \"Tenemos 30% de descuento\" existe del lado de la tienda."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Use o que você já sabe da pessoa",
+              "es": "Use lo que ya sabe de la persona"
+            },
+            "body": {
+              "pt-BR": "Se o cadastro diz que ela levou lente fotossensível no verão passado, o convite menciona isso. Mensagem que prova memória não parece disparo, e disparo que não parece disparo é o único que o WhatsApp e o cliente toleram. É também o melhor argumento interno para manter o cadastro em dia.",
+              "es": "Si el registro dice que llevó una lente fotosensible el verano pasado, la invitación lo menciona. Un mensaje que demuestra memoria no parece un envío masivo."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir os contatos",
+            "es": "Abrir los contactos"
+          },
+          "capability": "contacts.open"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "format_version": 1,
+  "profile": "declarative",
+  "publisher": "deskcomm",
+  "name": "primeiro-atendimento-juridico",
+  "version": "1.0.0",
+  "license": "MIT",
+  "host_api": {
+    "min": 2,
+    "max": 2
+  },
+  "permissions": [
+    "navigation.inbox",
+    "navigation.agenda",
+    "navigation.tasks"
+  ],
+  "dependencies": [],
+  "data": {
+    "mode": "none"
+  },
+  "display": {
+    "title": {
+      "pt-BR": "Escritório: o primeiro atendimento",
+      "es": "Despacho: la primera atención"
+    },
+    "summary": {
+      "pt-BR": "Triagem pelo WhatsApp sem prometer resultado, sem opinar sobre o caso e sem perder o cliente: o que perguntar, o que nunca responder e como chegar à consulta com a papelada pronta.",
+      "es": "Triaje por WhatsApp sin prometer resultados, sin opinar sobre el caso y sin perder al cliente: qué preguntar, qué nunca responder y cómo llegar a la consulta con los documentos listos."
+    },
+    "category": "service",
+    "icon": "BookOpen"
+  },
+  "configuration": {
+    "density": "comfortable",
+    "show_description": true
+  },
+  "contributions": {
+    "crm_cards": [
+      {
+        "id": "a-linha-que-nao-se-cruza",
+        "title": {
+          "pt-BR": "A linha que o atendimento não cruza",
+          "es": "La línea que la atención no cruza"
+        },
+        "description": {
+          "pt-BR": "Quem atende o WhatsApp organiza o atendimento. Quem opina sobre o caso é o advogado, na consulta — e essa separação protege o escritório e o cliente.",
+          "es": "Quien atiende el WhatsApp organiza la atención. Quien opina sobre el caso es el abogado, en la consulta."
+        },
+        "icon": "BookOpen",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Nunca prometa resultado, nem estime chance",
+              "es": "Nunca prometa resultado ni estime posibilidades"
+            },
+            "body": {
+              "pt-BR": "\"Isso você ganha\", \"dá uns trinta mil\" e \"é rápido\" são frases que criam expectativa que o processo não cumpre — e, para a advocacia, captação com promessa de resultado é vedada pelo código de ética. A resposta certa é a honesta: \"Isso depende de documento e de análise, e é exatamente o que o doutor avalia na consulta.\"",
+              "es": "\"Eso lo gana\", \"son unos treinta mil\" y \"es rápido\" crean una expectativa que el proceso no cumple, y prometer resultados está vedado por el código de ética. La respuesta correcta es la honesta: eso depende de documentos y análisis."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Não dê o caminho, dê a consulta",
+              "es": "No dé el camino, dé la consulta"
+            },
+            "body": {
+              "pt-BR": "Quando a pergunta é \"o que eu faço?\", a tentação é responder por educação. Responder ali entrega o serviço de graça, mal, e sem conhecer o caso. \"É o tipo de coisa que muda conforme o documento — vale meia hora com o doutor para você sair com a resposta certa\" é mais útil para o cliente e sustenta o escritório.",
+              "es": "Cuando la pregunta es \"¿qué hago?\", responder ahí entrega el servicio gratis, mal y sin conocer el caso. Vale media hora de consulta para que salga con la respuesta correcta."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as conversas",
+            "es": "Abrir las conversaciones"
+          },
+          "capability": "inbox.open"
+        }
+      },
+      {
+        "id": "a-triagem",
+        "title": {
+          "pt-BR": "A triagem em quatro perguntas",
+          "es": "El triaje en cuatro preguntas"
+        },
+        "description": {
+          "pt-BR": "Triagem boa não investiga o caso: descobre se é da área do escritório, se há prazo correndo e com quem falar.",
+          "es": "Un buen triaje no investiga el caso: descubre si es del área del despacho, si hay un plazo corriendo y con quién hablar."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "É da nossa área?",
+              "es": "¿Es de nuestra área?"
+            },
+            "body": {
+              "pt-BR": "Uma pergunta de assunto resolve: \"É questão trabalhista, de família, de consumidor?\" Encaminhar com clareza quem não é do escopo leva dois minutos e gera indicação; arrastar por três dias e desaparecer gera reclamação. Mantenha à mão uma lista curta de colegas de outras áreas para esse encaminhamento.",
+              "es": "Una pregunta de materia lo resuelve. Derivar con claridad a quien no es del ámbito toma dos minutos y genera recomendaciones; arrastrarlo tres días y desaparecer genera quejas."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Tem prazo correndo?",
+              "es": "¿Hay un plazo corriendo?"
+            },
+            "body": {
+              "pt-BR": "\"Você recebeu alguma carta, notificação ou intimação com data?\" é a pergunta que decide se o atendimento é de hoje ou da semana que vem. Caso com prazo vai para o topo da fila e para a agenda no mesmo dia; sem ela, o escritório descobre a urgência quando já não dá para ajudar.",
+              "es": "\"¿Recibió alguna carta, notificación o citación con fecha?\" es la pregunta que decide si la atención es de hoy o de la próxima semana."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Quem é a parte, e já tem advogado?",
+              "es": "¿Quién es la parte, y ya tiene abogado?"
+            },
+            "body": {
+              "pt-BR": "Às vezes quem escreve é o filho, a esposa, o sócio — e o atendimento tem de saber de quem é o caso. E quem já está representado por outro colega exige cuidado próprio: o escritório não trata diretamente sem alinhar isso, por ética profissional. As duas informações se perguntam em uma linha cada.",
+              "es": "A veces quien escribe es el hijo, la esposa, el socio, y la atención debe saber de quién es el caso. Quien ya está representado por otro colega exige cuidado propio."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as tarefas",
+            "es": "Abrir las tareas"
+          },
+          "capability": "tasks.open"
+        }
+      },
+      {
+        "id": "chegar-com-a-papelada",
+        "title": {
+          "pt-BR": "Chegar na consulta com a papelada pronta",
+          "es": "Llegar a la consulta con los documentos listos"
+        },
+        "description": {
+          "pt-BR": "Consulta que começa pedindo documento gasta metade do tempo e termina sem conclusão. A lista vai antes, pelo WhatsApp.",
+          "es": "Una consulta que empieza pidiendo documentos gasta la mitad del tiempo y termina sin conclusión. La lista va antes, por WhatsApp."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Mande a lista do tipo de caso, não a lista genérica",
+              "es": "Envíe la lista del tipo de caso, no la genérica"
+            },
+            "body": {
+              "pt-BR": "Tenha uma lista curta por assunto e mande a que serve: para trabalhista, carteira e contracheques; para consumidor, nota e protocolo da reclamação; para família, certidões. Lista genérica de dez itens faz o cliente levar nenhum, porque ele não sabe quais são os dele. Lista de três itens certos ele leva.",
+              "es": "Tenga una lista corta por materia y envíe la que sirve. Una lista genérica de diez ítems hace que el cliente no lleve ninguno; una de tres ítems correctos la lleva."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Confirme a consulta um dia antes",
+              "es": "Confirme la consulta un día antes"
+            },
+            "body": {
+              "pt-BR": "Reaproveite a confirmação para relembrar a papelada: \"Confirmando amanhã às 15h — traz a carteira de trabalho e os três últimos contracheques?\" Dois objetivos numa mensagem, e o horário do advogado deixa de ser gasto reconstruindo o que já tinha sido pedido.",
+              "es": "Aproveche la confirmación para recordar los documentos: dos objetivos en un mensaje, y el tiempo del abogado deja de gastarse en reconstruir lo ya pedido."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir a agenda",
+            "es": "Abrir la agenda"
+          },
+          "capability": "agenda.open"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "format_version": 1,
+  "profile": "declarative",
+  "publisher": "deskcomm",
+  "name": "orcamento-que-volta",
+  "version": "1.0.0",
+  "license": "MIT",
+  "host_api": {
+    "min": 2,
+    "max": 2
+  },
+  "permissions": [
+    "navigation.kanban",
+    "navigation.inbox",
+    "navigation.tasks"
+  ],
+  "dependencies": [],
+  "data": {
+    "mode": "none"
+  },
+  "display": {
+    "title": {
+      "pt-BR": "Orçamento que volta",
+      "es": "Presupuesto que vuelve"
+    },
+    "summary": {
+      "pt-BR": "Orçamento enviado e silêncio é o maior desperdício de todo funil. O roteiro de como enviar para ter resposta, quando cobrar e quando encerrar sem perder a relação.",
+      "es": "Presupuesto enviado y silencio es el mayor desperdicio de todo embudo. El guion de cómo enviarlo para tener respuesta, cuándo insistir y cuándo cerrar sin perder la relación."
+    },
+    "category": "sales",
+    "icon": "ListChecks"
+  },
+  "configuration": {
+    "density": "comfortable",
+    "show_description": true
+  },
+  "contributions": {
+    "crm_cards": [
+      {
+        "id": "como-enviar",
+        "title": {
+          "pt-BR": "Mande o orçamento de um jeito que peça resposta",
+          "es": "Envíe el presupuesto de modo que pida respuesta"
+        },
+        "description": {
+          "pt-BR": "Um PDF solto numa conversa não pede nada a ninguém. O que gera resposta é o que acompanha o arquivo.",
+          "es": "Un PDF solo en una conversación no pide nada a nadie. Lo que genera respuesta es lo que acompaña al archivo."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Três linhas antes do arquivo",
+              "es": "Tres líneas antes del archivo"
+            },
+            "body": {
+              "pt-BR": "Diga o que foi considerado, o que ficou de fora e o que você precisa de volta: \"Montei com [escopo]. Não incluí [item], que a gente pode somar depois. Me diz se o prazo da página 2 serve para você?\" A pergunta no fim é o que transforma o envio em conversa — orçamento sem pergunta é documento, e documento ninguém responde.",
+              "es": "Diga qué se consideró, qué quedó fuera y qué necesita de vuelta: \"Lo armé con [alcance]. No incluí [ítem], que podemos sumar después. ¿Me dice si el plazo de la página 2 le sirve?\""
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Combine o próximo contato na mesma mensagem",
+              "es": "Acuerde el próximo contacto en el mismo mensaje"
+            },
+            "body": {
+              "pt-BR": "\"Se eu não ouvir de você até quinta, te chamo na quinta à tarde — pode ser?\" Com isso, a cobrança de quinta deixa de ser insistência e passa a ser combinado cumprido. É a diferença entre parecer vendedor chato e parecer alguém organizado, e custa uma frase.",
+              "es": "\"Si no sé de usted hasta el jueves, le escribo el jueves por la tarde, ¿le parece?\" Así el seguimiento del jueves deja de ser insistencia y pasa a ser un acuerdo cumplido."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as conversas",
+            "es": "Abrir las conversaciones"
+          },
+          "capability": "inbox.open"
+        }
+      },
+      {
+        "id": "a-cobranca",
+        "title": {
+          "pt-BR": "A cobrança que não parece cobrança",
+          "es": "El seguimiento que no parece insistencia"
+        },
+        "description": {
+          "pt-BR": "\"Conseguiu ver o orçamento?\" é a pergunta que menos funciona do comércio: ela só aceita sim ou não, e o não é mais fácil.",
+          "es": "\"¿Pudo ver el presupuesto?\" es la pregunta que menos funciona: solo acepta sí o no, y el no es más fácil."
+        },
+        "icon": "Lightbulb",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "Traga informação nova, não lembrete",
+              "es": "Traiga información nueva, no un recordatorio"
+            },
+            "body": {
+              "pt-BR": "Todo contato de retomada precisa carregar algo que o cliente não tinha: um prazo que mudou, uma condição de pagamento que abriu, uma dúvida parecida que outro cliente teve. \"Lembrando do orçamento\" não dá ao cliente nenhum motivo novo para responder hoje em vez de amanhã — e amanhã é sempre.",
+              "es": "Todo contacto de retomada necesita llevar algo que el cliente no tenía: un plazo que cambió, una condición de pago que se abrió, una duda parecida que tuvo otro cliente."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Pergunte o obstáculo, com saídas",
+              "es": "Pregunte el obstáculo, con salidas"
+            },
+            "body": {
+              "pt-BR": "\"O que travou foi valor, prazo ou ainda está em aprovação interna?\" As três opções dizem ao cliente que qualquer resposta é aceitável, inclusive a ruim. É assim que se descobre que o negócio está parado em alguém que nem participou da conversa — e aí a venda muda de interlocutor, não de preço.",
+              "es": "\"¿Lo que frenó fue el valor, el plazo o sigue en aprobación interna?\" Las tres opciones le dicen al cliente que cualquier respuesta es aceptable, incluso la mala."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir as tarefas",
+            "es": "Abrir las tareas"
+          },
+          "capability": "tasks.open"
+        }
+      },
+      {
+        "id": "encerrar-sem-queimar",
+        "title": {
+          "pt-BR": "Encerrar sem queimar a relação",
+          "es": "Cerrar sin quemar la relación"
+        },
+        "description": {
+          "pt-BR": "Negócio parado há semanas no funil não é esperança: é ruído que esconde o que está vivo. Encerrar é operação de limpeza, e dá para fazer ganhando algo.",
+          "es": "Un negocio detenido durante semanas no es esperanza: es ruido que esconde lo que está vivo. Cerrarlo es limpieza, y se puede hacer ganando algo."
+        },
+        "icon": "ListChecks",
+        "blocks": [
+          {
+            "heading": {
+              "pt-BR": "A mensagem de encerramento é a que mais responde",
+              "es": "El mensaje de cierre es el que más respuesta genera"
+            },
+            "body": {
+              "pt-BR": "\"Vou encerrar esse orçamento por aqui para não ficar te cobrando. Se voltar a fazer sentido, me chama e eu refaço com os valores do dia.\" É a mensagem com a maior taxa de resposta de toda a sequência, porque tira a pressão — e boa parte das respostas é \"não, espera\". Quem não responde sai do funil sem mágoa.",
+              "es": "\"Voy a cerrar este presupuesto para no seguir insistiendo. Si vuelve a tener sentido, me escribe y lo rehago con los valores del día.\" Es el mensaje con mayor tasa de respuesta de toda la secuencia."
+            }
+          },
+          {
+            "heading": {
+              "pt-BR": "Registre o motivo da perda, sempre",
+              "es": "Registre el motivo de la pérdida, siempre"
+            },
+            "body": {
+              "pt-BR": "Perda sem motivo escrito é dado jogado fora. Com o motivo, três meses depois você sabe se perde por preço, por prazo ou por não falar com quem decide — e cada um desses tem conserto diferente. Sem ele, o funil só informa que perdeu.",
+              "es": "Una pérdida sin motivo escrito es un dato tirado a la basura. Con el motivo, tres meses después se sabe si se pierde por precio, por plazo o por no hablar con quien decide."
+            }
+          }
+        ],
+        "action": {
+          "label": {
+            "pt-BR": "Abrir o funil",
+            "es": "Abrir el embudo"
+          },
+          "capability": "kanban.open"
+        }
+      }
+    ]
+  }
+}
