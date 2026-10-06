@@ -334,6 +334,62 @@ async function apagarAssinaturaSemId(
   await deleteAtProvider(key, `webhooks/settings?webhookId=${encodeURIComponent(achada._id)}`);
 }
 /**
+ * A regra ÚNICA de "qual assinatura apagar", usada pelo desconectar e pelo DELETE
+ * da Central de Conexões (#2424): id gravado e não vazio → apaga pelo id; senão →
+ * reconcilia pela URL. Eram duas cópias e já divergiam: uma aceitava `""` e
+ * mandava `DELETE webhooks/settings?webhookId=` vazio, sem achar a assinatura.
+ * Tem de rodar ANTES do patch que rotaciona o token, ou a URL não casa mais.
+ */
+async function apagarAssinaturaDoCanal(
+  db: SupabaseClient,
+  org: string,
+  channelId: string,
+  key: string,
+  webhookId: unknown,
+) {
+  if (typeof webhookId === "string" && webhookId.length > 0)
+    await deleteAtProvider(key, `webhooks/settings?webhookId=${encodeURIComponent(webhookId)}`);
+  else await apagarAssinaturaSemId(db, org, channelId, key);
+}
+/**
+ * Apaga no provedor a assinatura de webhook de UM canal social (issue #2419).
+ *
+ * Cobre os dois estados da referência: com `metadata.social_webhook_id` apaga
+ * pelo id; sem ele reconcilia pela URL do token ainda válido — a mesma
+ * `apagarAssinaturaSemId` do #2364. Devolve `"sem_integracao"` quando a chave do
+ * perfil já saiu do banco (perfil desvinculado): sem chave não há como falar com
+ * o provedor, e o chamador registra e segue em best-effort, no mesmo contrato do
+ * ramo da Meta em `channel-sessions/[id]`.
+ *
+ * Erro de provedor LANÇA — o chamador decide entre falhar fechado (como
+ * `disconnectSocialAccount`) ou seguir em best-effort (como o DELETE da Central
+ * de Conexões). 404 no DELETE é "já saiu" e converge, via `deleteAtProvider`.
+ */
+export async function apagarAssinaturaSocial(
+  db: SupabaseClient,
+  org: string,
+  channelId: string,
+): Promise<"apagada" | "sem_integracao"> {
+  const integration = await readSocialIntegration(db, org);
+  if (!integration) return "sem_integracao";
+  const { data: channel, error } = await db
+    .from("channel_sessions")
+    .select("metadata")
+    .eq("organization_id", org)
+    .eq("id", channelId)
+    .maybeSingle();
+  if (error)
+    throw new SocialError("Não foi possível ler o canal para apagar o webhook.", 500);
+  await apagarAssinaturaDoCanal(
+    db,
+    org,
+    channelId,
+    integration.key,
+    channel?.metadata?.social_webhook_id,
+  );
+  return "apagada";
+}
+/**
  * Stops the inbox for one account and, with `removeAccount`, disconnects it from the provider.
  * Provider calls run first: if one fails the channel stays intact and the action can be retried.
  * Conversations are kept; the channel is archived, never deleted (issue #1314).
@@ -351,16 +407,16 @@ export async function disconnectSocialAccount(
   );
   const channel = (await socialChannels(db, org)).find((c) => c.accountId === accountId);
   if (!listed && !channel) throw new SocialError("Conta não encontrada neste perfil.", 404);
-  const webhookId = channel?.metadata.social_webhook_id;
-  if (typeof webhookId === "string")
-    await deleteAtProvider(
+  // Antes do patch de arquivamento: sem id gravado, a assinatura só é achada pela
+  // URL do token que esta linha ainda tem (issue #2364).
+  if (channel)
+    await apagarAssinaturaDoCanal(
+      db,
+      org,
+      channel.id,
       integration.key,
-      `webhooks/settings?webhookId=${encodeURIComponent(webhookId)}`,
+      channel.metadata.social_webhook_id,
     );
-  // SEM id gravado: a assinatura existe (ou pode existir) no provedor e só dá
-  // para achar pela URL — issue #2364. Roda antes do patch de arquivamento,
-  // quando o token desta linha ainda é o que o provedor tem na assinatura.
-  else if (channel) await apagarAssinaturaSemId(db, org, channel.id, integration.key);
   // Only accounts listed under this profile: the key may reach other profiles' accounts.
   if (removeAccount && listed)
     await deleteAtProvider(integration.key, `accounts/${encodeURIComponent(accountId)}`);

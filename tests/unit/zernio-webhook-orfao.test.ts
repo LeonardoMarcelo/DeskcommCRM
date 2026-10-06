@@ -222,3 +222,17 @@ it("canal órfão (conta fora do perfil) sem id: o Excluir da tela também apaga
   expect(updates).toHaveLength(1);
   expect(updates[0]?.patch).toMatchObject({ status: "STOPPED", archived_at: expect.any(String) });
 });
+
+it("`social_webhook_id` vazio não vira DELETE por id: reconcilia pela URL, como o DELETE da Central", async () => {
+  // PR #2424: o desconectar e o `apagarAssinaturaSocial` tinham cópias da regra
+  // "id ou URL", e esta aceitava `""` — o DELETE saía com `webhookId=` vazio e a
+  // assinatura de verdade ficava viva. Agora as duas passam pela mesma regra.
+  provedor([{ _id: "wh-orfao", url: `https://instalacao.example.com/api/v1/webhooks/channel/${token}` }]);
+  const { db, updates } = fakeDb([{ ...canalOrfao, metadata: { social_webhook_id: "" } }]);
+
+  await disconnectSocialAccount(db, org, account, false);
+
+  expect(listagensDeAssinatura()).toHaveLength(1);
+  expect(deletes()).toEqual(["webhooks/settings?webhookId=wh-orfao"]);
+  expect(updates).toHaveLength(1);
+});
