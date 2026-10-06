@@ -257,6 +257,19 @@ export function ehProvedorDeDecisao(id: string): boolean {
  * Jev. Devolve só o rótulo, e não a lista: quem precisa NOMEAR (a tela de
  * Execuções) não pede a união, e a catraca continua valendo só para CHAVE.
  */
+/**
+ * O catálogo deste provedor pode ser lido DELE, em vez do nosso curado?
+ *
+ * A bandeira `catalogoSincronizavel` existia desde que esta lista nasceu e **não
+ * tinha leitor nenhum** — evento sem consumidor (anti-pattern nº 3). O efeito era
+ * visível: `ai_models` tem 32 linhas semeadas à mão, nenhuma de OpenRouter, e quem
+ * cadastrava a chave de lá via o seletor de modelo do agente VAZIO. Este getter é
+ * o consumidor que faltava; quem o usa é a rota `/api/v1/ai/providers/:p/models`.
+ */
+export function temCatalogoSincronizavel(id: string): boolean {
+  return PROVEDOR_POR_ID.get(id)?.catalogoSincronizavel === true;
+}
+
 export function rotuloDoProvedor(id: string): string | undefined {
   return PROVEDORES_COM_CHAVE.find((p) => p.id === id)?.rotulo;
 }

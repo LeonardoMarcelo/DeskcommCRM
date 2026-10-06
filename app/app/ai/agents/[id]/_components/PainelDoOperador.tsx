@@ -22,7 +22,7 @@ import { useT } from "@/hooks/i18n/useT";
 
 import { useOperatorMetrics } from "@/hooks/ai/useOperatorMetrics";
 
-import { ModelPicker } from "./ModelPicker";
+import { ModelPicker } from "@/components/ai/ModelPicker";
 import { ToolPicker } from "./ToolPicker";
 import { FORA_DO_OPERADOR } from "@/lib/agent-engine/agent/entrega-de-capacidade";
 import type { Provider } from "@/hooks/ai/useCredentials";
@@ -69,7 +69,9 @@ function ComoOPapelEstaIndo({ agentId }: { agentId: string | null }) {
       <Card className="p-4" data-testid="operador-como-esta-indo">
         <p className="text-xs text-muted-foreground">
           {t("Nenhuma conversa passou por aqui nos últimos")} {dias}{" "}
-          {t("dias. Assim que o assistente atender alguém, o que ele organizar aparece nesta área.")}
+          {t(
+            "dias. Assim que o assistente atender alguém, o que ele organizar aparece nesta área.",
+          )}
         </p>
       </Card>
     );
@@ -168,7 +170,9 @@ export function PainelDoOperador(props: Props) {
       {props.enabled ? (
         <>
           <Card className="space-y-2 p-4">
-            <h3 className="text-sm font-medium">{t("A inteligência que ele usa para organizar")}</h3>
+            <h3 className="text-sm font-medium">
+              {t("A inteligência que ele usa para organizar")}
+            </h3>
             <p className="text-xs text-muted-foreground">
               {t(
                 "Pode ser diferente da que conversa. Organizar o sistema é uma tarefa mais mecânica que atender uma pessoa — costuma sair bem com um modelo mais barato.",

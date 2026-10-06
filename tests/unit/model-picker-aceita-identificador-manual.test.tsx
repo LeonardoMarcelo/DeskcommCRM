@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 
-import { ModelPicker } from "@/app/app/ai/agents/[id]/_components/ModelPicker";
+import { ModelPicker } from "@/components/ai/ModelPicker";
 
 vi.mock("@/lib/api/client", () => ({
   apiClient: {

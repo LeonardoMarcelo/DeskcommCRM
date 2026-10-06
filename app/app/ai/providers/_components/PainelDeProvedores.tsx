@@ -41,6 +41,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useT } from "@/hooks/i18n/useT";
+import { ModelPicker, type Provider } from "@/components/ai/ModelPicker";
 
 import { CartaoDeMapas } from "./CartaoDeMapas";
 import { CartaoDoJev, jevNoPonto, useDadosDoJev, type DadosDoJev } from "./CartaoDoJev";
@@ -195,10 +196,13 @@ export function PainelDeProvedores() {
       {semChave && (
         <Card className="mb-6 border-amber-500/40 bg-amber-500/5 p-4" data-testid="aviso-sem-chave">
           <p className="text-sm">
-            {t("Você ainda não cadastrou a chave da sua IA principal, a que conversa com os clientes.")}{" "}
+            {t(
+              "Você ainda não cadastrou a chave da sua IA principal, a que conversa com os clientes.",
+            )}{" "}
             {/* Só é verdade quando a instalação tem chave; sem ela, a frase
                 contradizia o cartão do Jev logo abaixo. */}
-            {dados.instalacaoTemChave && t("Enquanto isso, o atendimento usa a chave que veio na instalação.")}{" "}
+            {dados.instalacaoTemChave &&
+              t("Enquanto isso, o atendimento usa a chave que veio na instalação.")}{" "}
             <Link className="underline underline-offset-4" href="/app/ai/credentials">
               {t("Cadastrar uma chave")}
             </Link>
@@ -260,11 +264,6 @@ function CartaoDoPadrao({ dados, aoSalvar }: { dados: Dados; aoSalvar: () => Pro
   const [provider, setProvider] = useState(dados.padrao.provider);
   const [modelId, setModelId] = useState(dados.padrao.defaultModel ?? "");
   const [salvando, setSalvando] = useState(false);
-
-  const modelosDoProvedor = useMemo(
-    () => dados.modelos.filter((m) => m.provider === provider),
-    [dados.modelos, provider],
-  );
 
   // Quantos pontos herdam HOJE. É o número que explica por que esta caixa
   // importa: numa instalação nova são 24 de 25, e trocar aqui muda os 24.
@@ -342,43 +341,32 @@ function CartaoDoPadrao({ dados, aoSalvar }: { dados: Dados; aoSalvar: () => Pro
         <div className="min-w-64">
           <Label className="text-xs">{t("Modelo")}</Label>
           {/*
-            AQUI VALE A MESMA REGRA DO `CartaoDoPonto`, e pelo mesmo motivo: o
-            `baseline.sql` semeia `ai_models` só para anthropic/openai/google, e
-            os modelos da OpenRouter só chegam quando a sincronização do catálogo
-            roda. Numa instalação recém-feita — ou sem scheduler — o combo abria
-            com zero opções e o "Salvar padrão" ficava desabilitado, sem nenhum
-            caminho para gravar o modelo. Com o catálogo vazio o campo vira texto
-            livre, e a rota grava avisando que não deu para conferir o
-            identificador.
+            OS MODELOS VÊM DO PROVEDOR ESCOLHIDO, não de uma lista pré-carregada.
+
+            Antes, a lista saía de `dados.modelos` — o catálogo CURADO que
+            `/api/v1/ai/providers` devolve inteiro. Esse catálogo é semeado à mão
+            pelo `baseline.sql` e, nesta instalação, tem 32 modelos em cinco
+            provedores e **nenhum da OpenRouter**. Quem escolhia OpenRouter aqui
+            caía num campo de texto livre e tinha de adivinhar o identificador.
+
+            `ModelPicker` consulta `/api/v1/ai/providers/:provider/models`, que
+            já resolvia isto e ninguém chamava desta tela: quando o curado não
+            tem o provedor, a rota busca o catálogo do PRÓPRIO provedor com a
+            credencial da organização. Medido nesta instalação: 396 modelos da
+            OpenRouter, 6 da Anthropic, 2 da DeepSeek.
+
+            O campo de texto livre continua existindo — mas só quando o provedor
+            de fato não publica catálogo, e aí o componente diz por quê.
           */}
-          {modelosDoProvedor.length === 0 ? (
-            <>
-              <Input
-                value={modelId}
-                onChange={(e) => setModelId(e.target.value)}
-                placeholder="ex.: meta-llama/llama-3.3-70b-instruct"
-                data-testid="padrao-modelo"
-              />
-              <p className="mt-1 text-xs text-muted-foreground">
-                {t(
-                  "O catálogo deste provedor ainda não foi baixado. Digite o identificador do modelo como o provedor o nomeia — a lista completa aparece sozinha depois da primeira sincronização.",
-                )}
-              </p>
-            </>
-          ) : (
-            <Select value={modelId} onValueChange={setModelId}>
-              <SelectTrigger data-testid="padrao-modelo">
-                <SelectValue placeholder={t("escolha")} />
-              </SelectTrigger>
-              <SelectContent>
-                {modelosDoProvedor.map((m) => (
-                  <SelectItem key={m.model_id} value={m.model_id}>
-                    {m.display_name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
+          <ModelPicker
+            provider={provider as Provider}
+            value={modelId}
+            onChange={(v) => setModelId(v)}
+            disabled={!dados.podeEditar}
+            testId="padrao-modelo"
+            semRotulo
+            placeholder={t("escolha")}
+          />
         </div>
 
         {dados.podeEditar && (
@@ -422,7 +410,10 @@ function ResumoDoGrupo({ pontos }: { pontos: Ponto[] }) {
         ))}
       </div>
       {comAviso > 0 && (
-        <p className="mt-2 text-sm text-amber-600 dark:text-amber-500" data-testid="grupo-com-aviso">
+        <p
+          className="mt-2 text-sm text-amber-600 dark:text-amber-500"
+          data-testid="grupo-com-aviso"
+        >
           {comAviso === 1
             ? t("1 ponto deste grupo precisa da sua atenção.")
             : `${comAviso} ${t("pontos deste grupo precisam da sua atenção.")}`}
@@ -451,7 +442,6 @@ function CartaoDoPonto({
   const [baseUrl, setBaseUrl] = useState(ponto.efetivo.baseUrl ?? "");
   const [salvando, setSalvando] = useState(false);
 
-  const modelosDoProvider = dados.modelos.filter((m) => m.provider === provider);
   const credsDoProvider = dados.credenciais.filter((c) => c.provider === provider);
   // Endpoint próprio só faz sentido em provedor compatível com a API da OpenAI
   // — é a mesma condição que `lib/ai/pontos/provedores.ts` declara e que o
@@ -591,44 +581,26 @@ function CartaoDoPonto({
           <div>
             <Label className="text-xs">{t("Modelo")}</Label>
             {/*
-              Catálogo vazio não pode ser beco sem saída. O `baseline.sql` semeia
-              `ai_models` só para anthropic/openai/google; os da OpenRouter só
-              chegam quando o cron diário roda. Numa VPS recém-instalada, quem
-              escolhia OpenRouter via um combo com zero opções e o Salvar
-              desabilitado — travado até as 04h15 do dia seguinte, e para sempre
-              num deploy sem scheduler. Aqui o campo vira texto livre: a API já
-              aceita modelo fora do catálogo e devolve o aviso de que não
-              conhece (`validar-binding.ts`, `conhecido: false`).
+              OS MODELOS VÊM DO PROVEDOR ESCOLHIDO — ver o comentário igual no
+              `CartaoDoPadrao`, que é a mesma troca pelo mesmo motivo.
+
+              O que se perde aqui, e é consciente: o sufixo "— sem ferramentas",
+              que esta lista escrevia quando o ponto exige `tools` e o modelo não
+              os suporta. A rota `/models` JÁ filtra `supports_tools === true`
+              antes de devolver (está escrito no cabeçalho dela: "um modelo de
+              busca não é um atendente"), então um modelo sem ferramentas nem
+              chega ao seletor. O aviso descrevia uma opção que deixou de ser
+              oferecida.
             */}
-            {modelosDoProvider.length === 0 ? (
-              <>
-                <Input
-                  value={modelId}
-                  onChange={(e) => setModelId(e.target.value)}
-                  placeholder="ex.: meta-llama/llama-3.3-70b-instruct"
-                  data-testid={`modelo-${ponto.id}`}
-                />
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {t(
-                    "O catálogo deste provedor ainda não foi baixado. Digite o identificador do modelo como o provedor o nomeia — a lista completa aparece sozinha depois da primeira sincronização.",
-                  )}
-                </p>
-              </>
-            ) : (
-              <Select value={modelId} onValueChange={setModelId}>
-                <SelectTrigger data-testid={`modelo-${ponto.id}`}>
-                  <SelectValue placeholder={t("escolha")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {modelosDoProvider.map((m) => (
-                    <SelectItem key={m.model_id} value={m.model_id}>
-                      {m.display_name}
-                      {ponto.exige.tools && !m.supports_tools ? ` — ${t("sem ferramentas")}` : ""}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
+            <ModelPicker
+              provider={provider as Provider}
+              value={modelId}
+              onChange={(v) => setModelId(v)}
+              disabled={!editavel}
+              testId={`modelo-${ponto.id}`}
+              semRotulo
+              placeholder={t("escolha")}
+            />
           </div>
 
           <div>

@@ -11,7 +11,12 @@ import { ok, fail } from "@/lib/api/wrappers";
 import { loadAuthUser } from "@/lib/auth/server";
 import { orgAtivaDaApi } from "@/lib/auth/require-role";
 import { createClient } from "@/lib/supabase/server";
-import { ehProvedorSuportado } from "@/lib/ai/pontos/provedores";
+import { ehProvedorSuportado, temCatalogoSincronizavel } from "@/lib/ai/pontos/provedores";
+import { buscarModelosDoProvedor } from "@/lib/ai/catalogo-do-provedor";
+import { decryptKey, byteaToBuffer } from "@/lib/crypto/aes_gcm";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { env } from "@/lib/env";
+import { logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -74,5 +79,96 @@ export async function GET(
   // dublê, que devolve a lista inteira).
   const models = (data ?? []).filter((m) => m.supports_tools === true);
 
+  // ─── O CATÁLOGO DO PRÓPRIO PROVEDOR, quando o nosso não tem ────────────────
+  //
+  // `ai_models` é CURADO e semeado à mão: 32 linhas, nenhuma de OpenRouter. Quem
+  // cadastrava a chave de lá — o caminho que a tela de Credenciais recomenda como
+  // "o mais simples para experimentar" — escolhia o provedor aqui e recebia lista
+  // VAZIA, sem explicação. A bandeira `catalogoSincronizavel` existia para isto e
+  // não tinha leitor nenhum (anti-pattern nº 3): este é o leitor.
+  //
+  // O curado VENCE quando existe: ele tem preço conferido, `is_default_for_provider`
+  // e nomes revisados. O provedor entra só no vão.
+  if (models.length === 0 && temCatalogoSincronizavel(provider)) {
+    const credencial = await credencialDaOrganizacao(activeOrg.orgId, provider, requestId);
+    const doProvedor = await buscarModelosDoProvedor(
+      provider,
+      {
+        apiKey: credencial?.apiKey ?? null,
+        baseUrl: credencial?.baseUrl ?? baseDoProvedor(provider),
+      },
+      (causa) => {
+        // Falha DITA: catálogo que não veio em silêncio vira "este provedor não
+        // tem modelos" na tela, que é mentira.
+        logger.warn("[ai/models] o provedor não devolveu o catálogo", {
+          provider,
+          causa,
+          requestId,
+        });
+      },
+    );
+    return ok({ models: doProvedor }, { requestId });
+  }
+
   return ok({ models }, { requestId });
+}
+
+/** O endereço padrão de cada provedor sincronizável, quando a credencial não traz um. */
+function baseDoProvedor(provider: string): string {
+  if (provider === "openrouter") {
+    return (env.OPENROUTER_BASE_URL ?? "").trim() || "https://openrouter.ai/api/v1";
+  }
+  if (provider === "deepseek") return "https://api.deepseek.com/v1";
+  if (provider === "requesty") return "https://router.requesty.ai/v1";
+  return "";
+}
+
+/**
+ * A chave da ORGANIZAÇÃO para falar com o provedor.
+ *
+ * Admin client bypassa RLS, então o filtro por organização é PROGRAMÁTICO e
+ * obrigatório (CLAUDE.md, anti-pattern 10) — é o mesmo cuidado de
+ * `lib/ai/gateway-binding.ts`, de onde este trecho vem.
+ *
+ * Nulo quando não há credencial: o `/models` da OpenRouter é público (medido no
+ * cabeçalho de `validateOpenRouterKey`), então a lista ainda vem — só sem o limite
+ * de uso da conta.
+ */
+async function credencialDaOrganizacao(
+  organizationId: string,
+  provider: string,
+  requestId: string,
+): Promise<{ apiKey: string; baseUrl: string } | null> {
+  try {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from("ai_provider_credentials")
+      .select("api_key_encrypted, api_key_iv, api_key_tag, base_url")
+      .eq("organization_id", organizationId)
+      .eq("provider", provider)
+      .eq("is_active", true)
+      .not("validated_at", "is", null)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (!data) return null;
+
+    return {
+      apiKey: decryptKey({
+        ciphertext: byteaToBuffer(data.api_key_encrypted),
+        iv: byteaToBuffer(data.api_key_iv),
+        tag: byteaToBuffer(data.api_key_tag),
+      }),
+      baseUrl: (data.base_url as string | null)?.trim() || baseDoProvedor(provider),
+    };
+  } catch (erro) {
+    // Falha ABERTA na informação: sem a chave ainda dá para pedir o catálogo
+    // público. O que não pode é derrubar a tela por causa de uma leitura.
+    logger.warn("[ai/models] credencial ilegível — segue sem chave", {
+      provider,
+      requestId,
+      causa: erro instanceof Error ? erro.message : String(erro),
+    });
+    return null;
+  }
 }

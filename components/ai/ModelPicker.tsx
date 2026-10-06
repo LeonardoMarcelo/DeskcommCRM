@@ -12,7 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PROVEDORES } from "@/lib/ai/pontos/provedores";
+// `import type`: `PROVEDORES` só é usado em posição de TIPO logo abaixo
+// (`typeof PROVEDORES`), e o import de valor arrastava a lista para o bundle do
+// cliente sem necessidade.
+import type { PROVEDORES } from "@/lib/ai/pontos/provedores";
 import { useT } from "@/hooks/i18n/useT";
 
 /**
@@ -42,13 +45,37 @@ interface Props {
    * modelo que conversa", e chamar isso de "Selecione um modelo" mentiria.
    */
   placeholder?: string;
+  /**
+   * A âncora de teste, quando quem chama já tinha uma.
+   *
+   * A tela de Provedores usava `padrao-modelo` e `modelo-<ponto>`, e
+   * `tests/e2e/prova-painel-provedores.spec.ts` CLICA nelas — inclusive no caso
+   * "F3 — a OpenRouter é oferecida e seus modelos estão no seletor", que conta
+   * as opções. Trocar o seletor sem trazer a âncora junto quebraria a prova que
+   * justamente descreve o comportamento que este componente entrega.
+   */
+  testId?: string;
+  /**
+   * Esconde o rótulo "Modelo". Para quem já desenha o próprio `<Label>` ao lado
+   * do seletor de provedor e não quer dois rótulos empilhados.
+   */
+  semRotulo?: boolean;
 }
 
 interface ApiResponse {
   data: { models: ModelOption[] };
 }
 
-export function ModelPicker({ provider, value, onChange, disabled, id, placeholder }: Props) {
+export function ModelPicker({
+  provider,
+  value,
+  onChange,
+  disabled,
+  id,
+  placeholder,
+  testId,
+  semRotulo,
+}: Props) {
   const t = useT();
   const query = useQuery({
     queryKey: ["ai", "providers", provider, "models"],
@@ -61,17 +88,40 @@ export function ModelPicker({ provider, value, onChange, disabled, id, placehold
 
   const models = query.data ?? [];
 
+  const vazioDeVerdade = models.length === 0 && !query.isLoading;
+
   return (
     <div className="space-y-1">
-      <Label htmlFor={id}>{t("Modelo")}</Label>
-      {models.length === 0 && !query.isLoading ? (
-        <Input
-          id={id}
-          value={value}
-          onChange={(e) => onChange(e.target.value, { contextWindow: null })}
-          placeholder={t("Digite o identificador do modelo")}
-          disabled={disabled}
-        />
+      {semRotulo ? null : <Label htmlFor={id}>{t("Modelo")}</Label>}
+      {vazioDeVerdade ? (
+        <>
+          <Input
+            id={id}
+            data-testid={testId}
+            value={value}
+            onChange={(e) => onChange(e.target.value, { contextWindow: null })}
+            placeholder={t("Digite o identificador do modelo")}
+            disabled={disabled}
+          />
+          {/*
+            O CAMPO LIVRE PRECISA DIZER POR QUE É LIVRE.
+
+            Caindo aqui, uma de duas coisas aconteceu: o provedor não publica
+            catálogo (Anthropic, OpenAI e Google não publicam — o nosso é curado
+            à mão), ou ele publica e a consulta falhou. Nos dois casos a pessoa
+            precisa digitar o identificador, e um campo vazio sem explicação
+            parece defeito.
+          */}
+          <p className="text-xs text-muted-foreground">
+            {query.isError
+              ? t(
+                  "Não consegui falar com o provedor para listar os modelos. Digite o identificador como ele o nomeia.",
+                )
+              : t(
+                  "Este provedor não publica a lista de modelos. Digite o identificador como ele o nomeia.",
+                )}
+          </p>
+        </>
       ) : (
         <Select
           value={value || undefined}
@@ -81,14 +131,19 @@ export function ModelPicker({ provider, value, onChange, disabled, id, placehold
           }}
           disabled={disabled || query.isLoading}
         >
-          <SelectTrigger id={id}>
+          <SelectTrigger id={id} data-testid={testId}>
             <SelectValue
               placeholder={
                 query.isLoading ? t("Carregando…") : (placeholder ?? t("Selecione um modelo"))
               }
             />
           </SelectTrigger>
-          <SelectContent>
+          {/*
+            TETO DE ALTURA e rolagem: a OpenRouter devolve ~400 modelos (medido
+            nesta instalação: 396). Sem o teto, a lista abre maior que a janela e
+            o primeiro item fica fora da tela.
+          */}
+          <SelectContent className="max-h-72">
             {models.map((m) => (
               <SelectItem key={m.model_id} value={m.model_id}>
                 {m.display_name}

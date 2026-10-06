@@ -1874,6 +1874,17 @@ export const DICIONARIO: Traducoes = {
   Modelo: { es: "Modelo" },
   "Selecione um modelo": { es: "Selecciona un modelo" },
   "Digite o identificador do modelo": { es: "Escribe el identificador del modelo" },
+  // As duas razões pelas quais o campo de modelo é livre. Elas são distintas de
+  // propósito: "o provedor não publica catálogo" é o estado normal de Anthropic,
+  // OpenAI e Google, e "não consegui falar com o provedor" é falha. Antes as duas
+  // chegavam com o mesmo texto, e quem via não sabia se devia tentar de novo.
+  "Este provedor não publica a lista de modelos. Digite o identificador como ele o nomeia.": {
+    es: "Este proveedor no publica la lista de modelos. Escribe el identificador como él lo nombra.",
+  },
+  "Não consegui falar com o provedor para listar os modelos. Digite o identificador como ele o nomeia.":
+    {
+      es: "No pude comunicarme con el proveedor para listar los modelos. Escribe el identificador como él lo nombra.",
+    },
   "Nenhum modelo disponível": { es: "Ningún modelo disponible" },
   "Nenhuma capacidade disponível ainda para esta jornada.": {
     es: "Todavía no hay capacidades disponibles para esta jornada.",
