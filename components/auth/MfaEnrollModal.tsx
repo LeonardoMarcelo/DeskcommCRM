@@ -8,6 +8,7 @@ import { TOTPInput } from "@/components/auth/TOTPInput";
 import { RecoveryCodesPanel } from "@/components/auth/RecoveryCodesPanel";
 import { enrollMfa } from "@/app/actions/auth/enrollMfa";
 import { confirmMfaEnroll } from "@/app/actions/auth/confirmMfaEnroll";
+import { ehRedirecionamentoDoServidor, comTetoDeEspera } from "@/components/auth/teto-da-espera";
 
 type Step = "intro" | "scan" | "codes";
 
@@ -26,7 +27,9 @@ interface EnrollState {
  *
  * On completion, reloads the page so the parent layout re-evaluates the gate.
  */
-export function MfaEnrollModal({ motivo = "obrigatorio" }: { motivo?: "obrigatorio" | "escolha" } = {}) {
+export function MfaEnrollModal({
+  motivo = "obrigatorio",
+}: { motivo?: "obrigatorio" | "escolha" } = {}) {
   const t = useT();
   const [step, setStep] = useState<Step>("intro");
   const [enrollState, setEnrollState] = useState<EnrollState | null>(null);
@@ -39,18 +42,25 @@ export function MfaEnrollModal({ motivo = "obrigatorio" }: { motivo?: "obrigator
   useEffect(() => {
     if (step !== "scan" || enrollState) return;
     startTransition(async () => {
-      const res = await enrollMfa();
-      if (!res.ok) {
-        setError(res.message ?? t("Não foi possível iniciar a configuração."));
-        setStep("intro");
-        return;
+      try {
+        const res = await comTetoDeEspera(enrollMfa());
+        if (!res.ok) {
+          setError(res.message ?? t("Não foi possível iniciar a configuração."));
+          setStep("intro");
+          return;
+        }
+        setEnrollState({
+          factor_id: res.factor_id,
+          qr_data_url: res.qr_data_url,
+          uri: res.uri,
+          secret: res.secret,
+        });
+      } catch (erro) {
+        // Teto e catch: sem eles, uma ação que demora ou lança deixa o botão
+        // em carregando para sempre, sem dizer nada. Ver teto-da-espera.ts.
+        if (ehRedirecionamentoDoServidor(erro)) throw erro;
+        setError(t("Não consegui concluir agora. Tente novamente."));
       }
-      setEnrollState({
-        factor_id: res.factor_id,
-        qr_data_url: res.qr_data_url,
-        uri: res.uri,
-        secret: res.secret,
-      });
     });
   }, [step, enrollState, t]);
 
@@ -60,18 +70,29 @@ export function MfaEnrollModal({ motivo = "obrigatorio" }: { motivo?: "obrigator
     if (finalCode.length !== 6) return;
     setError(null);
     startTransition(async () => {
-      const res = await confirmMfaEnroll(finalCode, enrollState.factor_id);
-      if (!res.ok) {
-        if (res.error === "verify_failed" || res.error === "invalid_code") {
-          setError(t("Código inválido. Tente novamente."));
-        } else {
-          setError(res.message ?? t("Falha ao confirmar. Tente novamente."));
+      // O MESMO teto e o mesmo `catch` do `MfaForm`, pela mesma razão: sem eles
+      // uma confirmação que não responde deixa este botão em "Verificando…"
+      // para sempre, com o campo `disabled` — e aqui é pior, porque a pessoa
+      // está no meio de LIGAR a verificação em duas etapas e fica sem saber se
+      // o fator foi confirmado ou não.
+      try {
+        const res = await comTetoDeEspera(confirmMfaEnroll(finalCode, enrollState.factor_id));
+        if (!res.ok) {
+          if (res.error === "verify_failed" || res.error === "invalid_code") {
+            setError(t("Código inválido. Tente novamente."));
+          } else {
+            setError(res.message ?? t("Falha ao confirmar. Tente novamente."));
+          }
+          setCode("");
+          return;
         }
+        setRecoveryCodes(res.recovery_codes);
+        setStep("codes");
+      } catch (erro) {
+        if (ehRedirecionamentoDoServidor(erro)) throw erro;
+        setError(t("Não consegui verificar o código agora. Tente novamente."));
         setCode("");
-        return;
       }
-      setRecoveryCodes(res.recovery_codes);
-      setStep("codes");
     });
   };
 
@@ -132,7 +153,9 @@ export function MfaEnrollModal({ motivo = "obrigatorio" }: { motivo?: "obrigator
                 {t("Escaneie o QR code")}
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                {t("Abra seu app autenticador, adicione uma nova conta e digite o código de 6 dígitos abaixo.")}
+                {t(
+                  "Abra seu app autenticador, adicione uma nova conta e digite o código de 6 dígitos abaixo.",
+                )}
               </p>
             </div>
 
@@ -156,7 +179,7 @@ export function MfaEnrollModal({ motivo = "obrigatorio" }: { motivo?: "obrigator
                   <summary className="cursor-pointer">
                     {t("Não consegue escanear? Digite o código manual")}
                   </summary>
-                  <code className="mt-2 block break-all rounded-md bg-muted p-2 font-mono">
+                  <code className="mt-2 block rounded-md bg-muted p-2 font-mono break-all">
                     {enrollState.secret}
                   </code>
                 </details>

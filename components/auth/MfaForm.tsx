@@ -7,6 +7,7 @@ import { useT } from "@/hooks/i18n/useT";
 import { TOTPInput } from "@/components/auth/TOTPInput";
 import { Button } from "@/components/ui/button";
 import { verifyMfa } from "@/app/actions/auth/verifyMfa";
+import { comTetoDeEspera, ehRedirecionamentoDoServidor } from "@/components/auth/teto-da-espera";
 
 interface MfaFormProps {
   next?: string;
@@ -40,17 +41,30 @@ export function MfaForm({ next }: MfaFormProps) {
     if (finalCode.length !== 6 || locked) return;
     setError(null);
     startTransition(async () => {
-      const res = await verifyMfa(finalCode, next);
-      if (!res) return; // server-side redirect on success
-      if (res.error === "mfa_locked") {
-        setLocked(true);
-        setSecondsLeft(res.retry_in_seconds ?? 60);
-        setError(
-          `${t("Muitas tentativas. Aguarde")} ${res.retry_in_seconds ?? 60}s ${t("e tente novamente.")}`,
-        );
-        setCode("");
-      } else {
-        setError(t("Código inválido. Tente novamente."));
+      try {
+        const res = await comTetoDeEspera(verifyMfa(finalCode, next));
+        if (!res) return; // server-side redirect on success
+        if (res.error === "mfa_locked") {
+          setLocked(true);
+          setSecondsLeft(res.retry_in_seconds ?? 60);
+          setError(
+            `${t("Muitas tentativas. Aguarde")} ${res.retry_in_seconds ?? 60}s ${t("e tente novamente.")}`,
+          );
+          setCode("");
+        } else {
+          setError(t("Código inválido. Tente novamente."));
+          setCode("");
+        }
+      } catch (erro) {
+        /*
+          O REDIRECT DO SERVIDOR PASSA POR AQUI, E NÃO PODE SER ENGOLIDO.
+          `redirect()` numa Server Action sinaliza por exceção, com `digest`
+          começando em "NEXT_REDIRECT" — é assim que o sucesso navega para
+          /app. Um `catch` que a tratasse como falha deixaria quem acertou o
+          código preso na tela, vendo "não consegui verificar".
+        */
+        if (ehRedirecionamentoDoServidor(erro)) throw erro;
+        setError(t("Não consegui verificar o código agora. Tente novamente."));
         setCode("");
       }
     });
@@ -93,16 +107,15 @@ export function MfaForm({ next }: MfaFormProps) {
         </div>
       )}
 
-      <Button
-        type="submit"
-        className="w-full"
-        disabled={isPending || locked || code.length !== 6}
-      >
+      <Button type="submit" className="w-full" disabled={isPending || locked || code.length !== 6}>
         {isPending ? t("Verificando...") : t("Verificar")}
       </Button>
 
       <div className="text-center text-sm">
-        <Link href={recoveryHref} className="text-muted-foreground underline-offset-4 hover:underline">
+        <Link
+          href={recoveryHref}
+          className="text-muted-foreground underline-offset-4 hover:underline"
+        >
           {t("Perdi acesso ao autenticador")}
         </Link>
       </div>

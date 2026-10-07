@@ -204,6 +204,8 @@ export const DICIONARIO: Traducoes = {
   "Seções de conversões": { es: "Secciones de conversiones" },
   "Não consegui ler o histórico agora. Atualize a página em instantes.": { es: "No pude leer el historial ahora. Actualiza la página en unos instantes." },
   "Não consegui ler o diagnóstico agora. Atualize a página em instantes.": { es: "No pude leer el diagnóstico ahora. Actualiza la página en unos instantes." },
+  "Não consegui concluir agora. Tente novamente.": { es: "No pude completar ahora. Intenta de nuevo." },
+  "Não consegui verificar o código agora. Tente novamente.": { es: "No pude verificar el código ahora. Intenta de nuevo." },
   "Instalação sem credenciais do Google Ads": { es: "Instalación sin credenciales de Google Ads" },
   "Quem instalou o sistema precisa configurar GOOGLE_ADS_OAUTH_CLIENT_ID e GOOGLE_ADS_OAUTH_CLIENT_SECRET. Até lá, nada é enviado ao Google.": { es: "Quien instaló el sistema debe configurar GOOGLE_ADS_OAUTH_CLIENT_ID y GOOGLE_ADS_OAUTH_CLIENT_SECRET. Hasta entonces, no se envía nada a Google." },
   "Conta Google não conectada": { es: "Cuenta de Google no conectada" },
